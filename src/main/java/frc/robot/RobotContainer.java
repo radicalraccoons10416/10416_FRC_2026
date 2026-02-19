@@ -29,7 +29,8 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.IntakeSubsystem.Direction;
+import frc.robot.subsystems.ShooterSubsystem;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -41,7 +42,7 @@ public class RobotContainer
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   final         CommandXboxController driverController = new CommandXboxController(0);
-  public static final CommandXboxController utilityController = new CommandXboxController(1);
+  public static final CommandXboxController operatorController = new CommandXboxController(1);
 
   // The robot's subsystems and commands are defined here...
   public final SwerveSubsystem drivebase = new SwerveSubsystem(
@@ -52,6 +53,23 @@ public class RobotContainer
   private final SendableChooser<Command> autoChooser;
 
   final IntakeSubsystem intake = new IntakeSubsystem();
+  final ShooterSubsystem shooter = new ShooterSubsystem();
+
+  public enum States {
+    FORWARD(1.0),
+    BACKWARDS(-1.0),
+    NONE(0.0);
+
+    private final double multiplier;
+
+    States(double multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public double getMultiplier() { 
+        return multiplier;
+    }
+}
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -104,7 +122,6 @@ public class RobotContainer
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
   private void configureBindings() {
-  
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
 
     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
@@ -116,14 +133,9 @@ public class RobotContainer
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
     
     // ground intake control
-    driverController.leftTrigger().whileTrue(
-      Commands.run(() -> {
-        intake.runIntake(Direction.FORWARD);
-      }, intake)
-    );
     driverController.rightTrigger().whileTrue(
       Commands.run(() -> {
-        intake.runIntake(Direction.FORWARD);
+        intake.runIntake(States.FORWARD);
       }, intake)
     );
   }

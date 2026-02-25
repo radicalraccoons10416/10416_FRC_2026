@@ -131,7 +131,7 @@ public class RobotContainer
     // ground intake control
     driverController.rightTrigger().whileTrue(
       Commands.run(() -> {
-        shooter.runShooter();
+        shooter.runShooter(10);
       }, shooter)
     );
 

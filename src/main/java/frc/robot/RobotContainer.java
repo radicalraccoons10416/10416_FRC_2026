@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import java.io.File;
@@ -41,7 +37,7 @@ public class RobotContainer
 {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  final         CommandXboxController driverController = new CommandXboxController(0);
+  public static final CommandXboxController driverController = new CommandXboxController(0);
   public static final CommandXboxController operatorController = new CommandXboxController(1);
 
   // The robot's subsystems and commands are defined here...
@@ -135,8 +131,14 @@ public class RobotContainer
     // ground intake control
     driverController.rightTrigger().whileTrue(
       Commands.run(() -> {
-        intake.runIntake(States.FORWARD);
-      }, intake)
+        shooter.runShooter();
+      }, shooter)
+    );
+
+    driverController.leftTrigger().whileTrue(
+      Commands.run(() -> {
+        shooter.stopShooter();
+      }, shooter)
     );
   }
   /**

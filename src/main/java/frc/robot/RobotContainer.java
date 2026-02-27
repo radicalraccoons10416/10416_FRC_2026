@@ -77,16 +77,12 @@ public class RobotContainer
   .deadband(OperatorConstants.DEADBAND)
   .scaleTranslation(0.8)
   .allianceRelativeControl(true);
-/*
- * Clone's the angular velocity input stream and converts it to a robotRelative input stream.
- */
+
+
 
 /**
 * The container for the robot. Contains subsystems, OI devices, and commands.
 */
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer()
   {
     // Configure the trigger bindings
@@ -128,19 +124,19 @@ public class RobotContainer
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
     
-    // ground intake control
-    driverController.rightTrigger().whileTrue(
-      Commands.run(() -> {
-        shooter.runShooter(10);
-      }, shooter)
-    );
-
-    driverController.leftTrigger().whileTrue(
-      Commands.run(() -> {
-        shooter.stopShooter();
-      }, shooter)
-    );
+      driverController.rightTrigger().whileTrue(
+        Commands.run(() -> {
+          shooter.runShooter(20);
+        }, intake)
+      );
+      driverController.leftTrigger().onTrue(
+        Commands.run(() -> {
+          shooter.stopShooter();
+        }, intake)
+      );
   }
+
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

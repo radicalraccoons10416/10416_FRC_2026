@@ -18,7 +18,7 @@ public class ShooterSubsystem extends SubsystemBase {
         // set slot 0 gains
         var slot0Configs = new Slot0Configs();
         slot0Configs.kS = 0.15; // Add 0.1 V output to overcome static friction
-        slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+        slot0Configs.kV = 0.14; // A velocity target of 1 rps results in 0.12 V output
         slot0Configs.kP = 0.3; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0.4; // no output for integrated error
         slot0Configs.kD = 0.001; // no output for error derivative
@@ -49,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
     public void runShooter(int speed){
         shooterWheelSpeed = speed;
-        intakeWheelSpeed = 6;
+        intakeWheelSpeed = 0;
     }
     public void stopShooter(){
         shooterWheelSpeed = 0;

@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -49,7 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
     public void runShooter(int speed){
         shooterWheelSpeed = speed;
-        intakeWheelSpeed = 0;
+        intakeWheelSpeed = 4;
     }
     public void stopShooter(){
         shooterWheelSpeed = 0;
@@ -61,6 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Shooter Velocity", shooterMotorLeft.getVelocity().getValueAsDouble());
         shooterMotorRight.setControl(m_request.withVelocity(-1 * shooterWheelSpeed));
         intakeMotor.setControl(new VoltageOut(intakeWheelSpeed));
-
+        shooterWheelSpeed = 0;
+        intakeWheelSpeed = 0;
     }    
 }  

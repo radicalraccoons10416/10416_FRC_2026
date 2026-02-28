@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
-
+import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -50,6 +50,7 @@ public class RobotContainer
 
   final IntakeSubsystem intake = new IntakeSubsystem();
   final ShooterSubsystem shooter = new ShooterSubsystem();
+  final HopperSubsystem hopper = new HopperSubsystem();
 
   public enum States {
     FORWARD(1.0),
@@ -126,13 +127,13 @@ public class RobotContainer
     
       driverController.rightTrigger().whileTrue(
         Commands.run(() -> {
-          shooter.runShooter(20);
-        }, intake)
+          shooter.runShooter(10);
+        }, shooter)
       );
-      driverController.leftTrigger().onTrue(
+      driverController.leftTrigger().whileTrue(
         Commands.run(() -> {
-          shooter.stopShooter();
-        }, intake)
+          hopper.runHopper(States.FORWARD);
+        }, hopper)
       );
   }
 

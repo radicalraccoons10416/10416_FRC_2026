@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
-
+import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -50,6 +50,7 @@ public class RobotContainer
 
   final IntakeSubsystem intake = new IntakeSubsystem();
   final ShooterSubsystem shooter = new ShooterSubsystem();
+  final HopperSubsystem hopper = new HopperSubsystem();
 
   public enum States {
     FORWARD(1.0),
@@ -77,16 +78,12 @@ public class RobotContainer
   .deadband(OperatorConstants.DEADBAND)
   .scaleTranslation(0.8)
   .allianceRelativeControl(true);
-/*
- * Clone's the angular velocity input stream and converts it to a robotRelative input stream.
- */
+
+
 
 /**
 * The container for the robot. Contains subsystems, OI devices, and commands.
 */
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer()
   {
     // Configure the trigger bindings
@@ -128,19 +125,19 @@ public class RobotContainer
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
     
-    // ground intake control
-    driverController.rightTrigger().whileTrue(
-      Commands.run(() -> {
-        shooter.runShooter(10);
-      }, shooter)
-    );
-
-    driverController.leftTrigger().whileTrue(
-      Commands.run(() -> {
-        shooter.stopShooter();
-      }, shooter)
-    );
+      driverController.rightTrigger().whileTrue(
+        Commands.run(() -> {
+          shooter.runShooter(10);
+        }, shooter)
+      );
+      driverController.leftTrigger().whileTrue(
+        Commands.run(() -> {
+          hopper.runHopper(States.FORWARD);
+        }, hopper)
+      );
   }
+
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

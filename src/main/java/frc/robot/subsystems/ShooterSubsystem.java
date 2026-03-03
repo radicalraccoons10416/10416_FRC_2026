@@ -45,13 +45,18 @@ public class ShooterSubsystem extends SubsystemBase {
     double shooterWheelSpeed = 0;
     double intakeWheelSpeed = 0;
     double defaultShooterSpeed = 20;
+    double defaultIntakeSpeed = -8;
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
     
     public Command runShooter(){
         return run(()-> {
             shooterWheelSpeed = defaultShooterSpeed;
-            intakeWheelSpeed = 8;
+            intakeWheelSpeed = defaultIntakeSpeed;
+            intakeMotor.setControl(new VoltageOut(intakeWheelSpeed));
+            shooterMotorRight.setControl(m_request.withVelocity(shooterWheelSpeed));
+            shooterWheelSpeed = 0;
+            intakeWheelSpeed = 0;
         });
     }
 
@@ -61,9 +66,5 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        shooterMotorRight.setControl(m_request.withVelocity(-1 * shooterWheelSpeed));
-        intakeMotor.setControl(new VoltageOut(intakeWheelSpeed));
-        shooterWheelSpeed = 0;
-        intakeWheelSpeed = 0;
     }    
 }  

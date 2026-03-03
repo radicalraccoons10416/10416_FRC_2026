@@ -9,6 +9,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -43,16 +44,19 @@ public class ShooterSubsystem extends SubsystemBase {
     
     double shooterWheelSpeed = 0;
     double intakeWheelSpeed = 0;
+    double defaultShooterSpeed = 20;
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
     
-    public void runShooter(int speed){
-        shooterWheelSpeed = speed;
-        intakeWheelSpeed = 8;
+    public Command runShooter(){
+        return run(()-> {
+            shooterWheelSpeed = defaultShooterSpeed;
+            intakeWheelSpeed = 8;
+        });
     }
-    public void stopShooter(){
-        shooterWheelSpeed = 0;
-        intakeWheelSpeed = 0;
+
+    public void changeShooterSpeed(int change) {
+        defaultShooterSpeed += change;
     }
 
     @Override

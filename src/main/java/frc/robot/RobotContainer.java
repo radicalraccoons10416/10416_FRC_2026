@@ -126,14 +126,22 @@ public class RobotContainer
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
     
       driverController.rightTrigger().whileTrue(
+        Commands.parallel(
+          hopper.runHopper(States.FORWARD),
+          shooter.runShooter()
+        )
+      );
+
+      driverController.povUp().onTrue(
         Commands.run(() -> {
-          shooter.runShooter(20);
+          shooter.changeShooterSpeed(1);
         }, shooter)
       );
-      driverController.leftTrigger().whileTrue(
+
+      driverController.povDown().onTrue(
         Commands.run(() -> {
-          hopper.runHopper(States.FORWARD);
-        }, hopper)
+          shooter.changeShooterSpeed(-1);
+        }, shooter)
       );
   }
 

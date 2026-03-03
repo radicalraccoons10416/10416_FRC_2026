@@ -48,7 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
     public void runShooter(int speed){
         shooterWheelSpeed = speed;
-        intakeWheelSpeed = 4;
+        intakeWheelSpeed = 8;
     }
     public void stopShooter(){
         shooterWheelSpeed = 0;
@@ -57,7 +57,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Shooter Velocity", shooterMotorLeft.getVelocity().getValueAsDouble());
         shooterMotorRight.setControl(m_request.withVelocity(-1 * shooterWheelSpeed));
         intakeMotor.setControl(new VoltageOut(intakeWheelSpeed));
         shooterWheelSpeed = 0;

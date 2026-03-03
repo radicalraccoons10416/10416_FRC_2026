@@ -127,7 +127,7 @@ public class RobotContainer
     
       driverController.rightTrigger().whileTrue(
         Commands.run(() -> {
-          shooter.runShooter(10);
+          shooter.runShooter(20);
         }, shooter)
       );
       driverController.leftTrigger().whileTrue(

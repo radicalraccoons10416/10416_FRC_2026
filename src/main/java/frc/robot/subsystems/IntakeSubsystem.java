@@ -7,6 +7,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer.States;
 
@@ -29,10 +30,10 @@ public class IntakeSubsystem extends SubsystemBase {
         storeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
-    public void setPosition(double pos){
-        final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(pos).withSlot(0);
+    public Command setPosition(double pos){
+        final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
 
-        storeMotor.setControl(m_Request);
+        return run(() -> storeMotor.setControl(m_Request.withPosition(pos)));
     }
 
     public void runIntake(States direction) {

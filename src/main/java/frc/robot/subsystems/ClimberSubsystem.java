@@ -29,11 +29,12 @@ public class ClimberSubsystem extends SubsystemBase {
         climberMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
-    public Command goToPos(double pos){
-        PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0).withSlot(0);
+    PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0).withSlot(0);
+    double position = 0;
 
+    public Command goToPos(double pos){
         return run(() ->
-            climberMotor.setControl(m_request.withPosition(pos))
+            position = pos
         );
     }
 
@@ -45,7 +46,7 @@ public class ClimberSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         double outputVoltage = wheelSpeed * state.getMultiplier();
-        climberMotor.setControl(new VoltageOut(outputVoltage));
+        climberMotor.setControl(m_request.withPosition(position));
         wheelSpeed = 0;
     }
 }

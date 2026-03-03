@@ -30,14 +30,15 @@ public class IntakeSubsystem extends SubsystemBase {
         storeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
-    public Command setPosition(double pos){
-        final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
+    private final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
+    double position = 0;
 
-        return run(() -> storeMotor.setControl(m_Request.withPosition(pos)));
+    public Command setPos(double pos){
+        return run(() -> position = pos);
     }
 
-    public void runIntake(States direction) {
-        wheelSpeed = 2.0; // Set the speed when the trigger is pressed
+    public void runIntake(States direction) { 
+        wheelSpeed = 2.0;// Set the speed when the trigger is pressed
         state = direction;
     }
 
@@ -45,6 +46,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         double outputVoltage = wheelSpeed * state.getMultiplier();
         intakeMotor.setControl(new VoltageOut(outputVoltage));
+        storeMotor.setControl(m_Request.withPosition(position));
         state = States.NONE;
     }
 }

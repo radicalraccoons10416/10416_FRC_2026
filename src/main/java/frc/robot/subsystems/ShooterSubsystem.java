@@ -8,7 +8,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -51,12 +50,14 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command runShooter(){
         return run(()-> {
             shooterWheelSpeed = defaultShooterSpeed;
-            intakeWheelSpeed = 8;
+            intakeWheelSpeed = 8;   
+            System.out.println("Shooter speed:" + shooterWheelSpeed);
         });
     }
 
     public void changeShooterSpeed(int change) {
         defaultShooterSpeed += change;
+        System.out.println("default speed:" + defaultShooterSpeed);
     }
 
     @Override

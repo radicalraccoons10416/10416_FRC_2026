@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -51,6 +52,8 @@ public class RobotContainer
   final IntakeSubsystem intake = new IntakeSubsystem();
   final ShooterSubsystem shooter = new ShooterSubsystem();
   final HopperSubsystem hopper = new HopperSubsystem();
+  final ClimberSubsystem climber = new ClimberSubsystem();
+
 
   public enum States {
     FORWARD(1.0),
@@ -76,7 +79,8 @@ public class RobotContainer
   () -> driverController.getLeftX() * -1)
   .withControllerRotationAxis(driverController::getRightX)
   .deadband(OperatorConstants.DEADBAND)
-  .scaleTranslation(0.8)
+  .scaleTranslation(1)
+  .scaleRotation(0.7)
   .allianceRelativeControl(true);
 
 
@@ -122,33 +126,68 @@ public class RobotContainer
 
 
     // All controller inputs for main teleop mode
-    // driver
+
+
+    //=========================================================================
+    //                               driver
+    //=========================================================================
+
+    // reset gyro
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
     
+      // shooter speed up
+      driverController.povUp().onTrue(
+        Commands.run(() -> {
+          shooter.changeShooterSpeed(1);
+        }, shooter)
+      );
+      
+      // shooter speed down
+      driverController.povDown().onTrue(
+        Commands.run(() -> {
+          shooter.changeShooterSpeed(-1);
+        }, shooter)
+      );
+      
+      // Shoot
       driverController.rightTrigger().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.FORWARD),
           shooter.runShooter()
         )
       );
+      
+      //=========================================================================
+      //                               operator
+      //=========================================================================
 
-      driverController.povUp().onTrue(
-        Commands.run(() -> {
-          shooter.changeShooterSpeed(1);
-        }, shooter)
+      // Intake
+      operatorController.rightTrigger().whileTrue(
+        intake.runIntake(States.FORWARD)
+      );
+      
+      // Dump fuel
+      driverController.leftTrigger().whileTrue(
+        Commands.parallel(
+          hopper.runHopper(States.BACKWARDS),
+          intake.runIntake(States.BACKWARDS)
+        )
       );
 
-      driverController.povDown().onTrue(
-        Commands.run(() -> {
-          shooter.changeShooterSpeed(-1);
-        }, shooter)
-      );
-  }
+      // intake up
 
+      // intake down
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
+      // climber up
+
+      // climber down
+
+    }
+    
+    
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
@@ -157,7 +196,7 @@ public class RobotContainer
     // Pass in the selected auto from the SmartDashboard as our desired autnomous commmand 
     return autoChooser.getSelected();
   }
-
+  
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);

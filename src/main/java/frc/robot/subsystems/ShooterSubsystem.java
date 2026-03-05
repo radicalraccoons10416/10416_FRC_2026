@@ -34,7 +34,7 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotorLeft.setControl(m_Follower);
         shooterMotorLeft.setNeutralMode(NeutralModeValue.Coast);
         shooterMotorRight.setNeutralMode(NeutralModeValue.Coast);
-        intakeMotor.setNeutralMode(NeutralModeValue.Coast);
+        intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
 
     public final TalonFX shooterMotorLeft = new TalonFX(51, "rio");
@@ -42,29 +42,40 @@ public class ShooterSubsystem extends SubsystemBase {
     public final TalonFX intakeMotor = new TalonFX(53, "rio");
     
     double shooterWheelSpeed = 0;
-    double intakeWheelSpeed = 0;
-    double defaultShooterSpeed = 20;
+    boolean isAtSpeed = false;
 
     final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
     
-    public Command runShooter(){
+    public Command runShooter(double speed){
         return run(()-> {
-            shooterWheelSpeed = defaultShooterSpeed;
-            intakeWheelSpeed = 8;   
-            System.out.println("Shooter speed:" + shooterWheelSpeed);
+            shooterWheelSpeed = speed;
         });
     }
 
-    public void changeShooterSpeed(int change) {
-        defaultShooterSpeed += change;
-        System.out.println("default speed:" + defaultShooterSpeed);
+    public boolean isShooterAtSpeed() {
+        return isAtSpeed;
     }
-
+    
     @Override
     public void periodic() {
-        intakeMotor.setControl(new VoltageOut(intakeWheelSpeed));
-        shooterMotorRight.setControl(m_request.withVelocity(-1 * shooterWheelSpeed));
+        if (isShooterAtSpeed() && shooterWheelSpeed != 0) {
+            intakeMotor.setControl(new VoltageOut(-8));
+        } else {
+            intakeMotor.setControl(new VoltageOut(0));
+        }
+
+        if (shooterWheelSpeed == 0) {
+            // Let it coast to stop
+            shooterMotorRight.setControl(new VoltageOut(0));
+        } else {
+            shooterMotorRight.setControl(m_request.withVelocity(-1 * shooterWheelSpeed));
+        }
+        double currentSpeed = Math.abs(shooterMotorRight.getVelocity().refresh().getValueAsDouble());
+        double targetSpeed = shooterWheelSpeed;
+        System.out.println("Current" + currentSpeed);
+        System.out.println("Target" + targetSpeed);
+
+        isAtSpeed = Math.abs(currentSpeed - targetSpeed) <= 0.05 * targetSpeed;
         shooterWheelSpeed = 0;
-        intakeWheelSpeed = 0;
     }    
-}  
+}

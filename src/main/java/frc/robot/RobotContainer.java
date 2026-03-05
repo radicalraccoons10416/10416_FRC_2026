@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
-import frc.robot.subsystems.ClimberSubsystem;
+// import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -52,7 +52,7 @@ public class RobotContainer
   final IntakeSubsystem intake = new IntakeSubsystem();
   final ShooterSubsystem shooter = new ShooterSubsystem();
   final HopperSubsystem hopper = new HopperSubsystem();
-  final ClimberSubsystem climber = new ClimberSubsystem();
+  // final ClimberSubsystem climber = new ClimberSubsystem();
 
 
   public enum States {
@@ -80,7 +80,7 @@ public class RobotContainer
   .withControllerRotationAxis(driverController::getRightX)
   .deadband(OperatorConstants.DEADBAND)
   .scaleTranslation(1)
-  .scaleRotation(0.7)
+  .scaleRotation(0.75)
   .allianceRelativeControl(true);
 
 
@@ -90,13 +90,16 @@ public class RobotContainer
 */
   public RobotContainer()
   {
+
+    // Commands.runOnce(drivebase::zeroGyro);
+
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     
     //Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("Shoot", shooter.runShooter());
+    NamedCommands.registerCommand("Shoot", shooter.runShooter(30));
 
     //Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -124,40 +127,36 @@ public class RobotContainer
 
     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
 
-
-    // All controller inputs for main teleop mode
-
-
     //=========================================================================
-    //                               driver
+    //                                driver
     //=========================================================================
 
     // reset gyro
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    
-      // shooter speed up
-      driverController.povUp().onTrue(
-        Commands.run(() -> {
-          shooter.changeShooterSpeed(1);
-        }, shooter)
-      );
       
-      // shooter speed down
-      driverController.povDown().onTrue(
-        Commands.run(() -> {
-          shooter.changeShooterSpeed(-1);
-        }, shooter)
-      );
-      
-      // Shoot
-      driverController.rightTrigger().whileTrue(
+      // Shoot close
+      driverController.a().whileTrue(
         Commands.parallel(
-          hopper.runHopper(States.FORWARD),
-          shooter.runShooter()
+          shooter.runShooter(30)
         )
       );
-      
+
+      // Shoot medium
+      driverController.b().whileTrue(
+        Commands.parallel(
+          shooter.runShooter(35)
+        )
+      );
+
+      // Shoot far
+      driverController.y().whileTrue(
+        Commands.parallel(
+          hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
+          shooter.runShooter(40)
+        )
+      );
+
       //=========================================================================
       //                               operator
       //=========================================================================
@@ -168,16 +167,22 @@ public class RobotContainer
       );
       
       // Dump fuel
-      driverController.leftTrigger().whileTrue(
+      operatorController.leftTrigger().whileTrue(
         Commands.parallel(
-          hopper.runHopper(States.BACKWARDS),
+          hopper.runHopper(States.BACKWARDS, shooter::isShooterAtSpeed),
           intake.runIntake(States.BACKWARDS)
         )
       );
 
       // intake up
+      operatorController.rightBumper().onTrue(
+        intake.intakeUp
+      );
 
       // intake down
+      operatorController.leftBumper().onTrue(
+        intake.intakeDown
+      );
 
       // climber up
 

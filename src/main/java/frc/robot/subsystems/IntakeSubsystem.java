@@ -8,37 +8,51 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer.States;
 
 public class IntakeSubsystem extends SubsystemBase {
     public final TalonFX intakeMotor = new TalonFX(31, "rio");
-    public final TalonFX storeMotor = new TalonFX(53, "rio");
+    public final TalonFX storeMotor = new TalonFX(54, "rio");
 
     private States state = States.NONE;
     private double wheelSpeed = 0.0;
 
-    public IntakeSubsystem(){
-        var slot0Configs = new Slot0Configs();
+    // public IntakeSubsystem(){
+    //     var slot0Configs = new Slot0Configs();
 
-        slot0Configs.kP = 0;
-        slot0Configs.kI = 0;
-        slot0Configs.kD = 0;
+    //     slot0Configs.kP = 0;
+    //     slot0Configs.kI = 0;
+    //     slot0Configs.kD = 0;
 
-        storeMotor.getConfigurator().apply(slot0Configs);
-        storeMotor.setNeutralMode(NeutralModeValue.Brake);
-    }
+    //     storeMotor.getConfigurator().apply(slot0Configs);
+    //     storeMotor.setNeutralMode(NeutralModeValue.Brake);
+    // }
 
-    private final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
-    double position = 0;
+    // private final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
+    // double position = 0;
 
-    public Command setPos(double pos){
-        return run(() -> position = pos);
-    }
+    // public Command setPos(double pos){
+    //     return run(() -> {
+    //         position = pos;
+    //     });
+    // }
+
+    public Command intakeUp = Commands.run(
+        () -> storeMotor.setControl(new VoltageOut(-2)))
+        .withTimeout(0.5)
+        .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
+
+    public Command intakeDown = Commands.run(
+        () -> storeMotor.setControl(new VoltageOut(2)))
+        .withTimeout(0.5)
+        .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
+
 
     public Command runIntake(States direction) { 
         return run(()-> {
-            wheelSpeed = -6.0;// Set the speed when the trigger is pressed
+            wheelSpeed = -9.0; // Set the speed when the trigger is pressed
             state = direction;
         });
     }
@@ -47,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         double outputVoltage = wheelSpeed * state.getMultiplier();
         intakeMotor.setControl(new VoltageOut(outputVoltage));
-        storeMotor.setControl(m_Request.withPosition(position));
+        // storeMotor.setControl(m_Request.withPosition(position));
         state = States.NONE;
         wheelSpeed = 0;
     }

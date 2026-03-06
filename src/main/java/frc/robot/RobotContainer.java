@@ -80,7 +80,7 @@ public class RobotContainer
   .withControllerRotationAxis(driverController::getRightX)
   .deadband(OperatorConstants.DEADBAND)
   .scaleTranslation(1)
-  .scaleRotation(0.75)
+  .scaleRotation(0.85)
   .allianceRelativeControl(true);
 
 
@@ -138,14 +138,16 @@ public class RobotContainer
       // Shoot close
       driverController.a().whileTrue(
         Commands.parallel(
-          shooter.runShooter(30)
+          hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
+          shooter.runShooter(22)
         )
       );
 
       // Shoot medium
       driverController.b().whileTrue(
         Commands.parallel(
-          shooter.runShooter(35)
+          hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
+          shooter.runShooter(25)
         )
       );
 
@@ -153,7 +155,7 @@ public class RobotContainer
       driverController.y().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
-          shooter.runShooter(40)
+          shooter.runShooter(28)
         )
       );
 
@@ -175,14 +177,20 @@ public class RobotContainer
       );
 
       // intake up
-      operatorController.rightBumper().onTrue(
-        intake.intakeUp
+      operatorController.leftBumper().onTrue(
+        Commands.parallel(
+          intake.intakeUp,
+          intake.runIntake(States.FORWARD)
+        )
       );
 
       // intake down
-      operatorController.leftBumper().onTrue(
+      operatorController.rightBumper().onTrue(
         intake.intakeDown
       );
+
+      // override hopper floor
+      
 
       // climber up
 

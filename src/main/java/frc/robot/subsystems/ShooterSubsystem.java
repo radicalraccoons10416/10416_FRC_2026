@@ -59,7 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (isShooterAtSpeed() && shooterWheelSpeed != 0) {
-            intakeMotor.setControl(new VoltageOut(-8));
+            intakeMotor.setControl(new VoltageOut(8));
         } else {
             intakeMotor.setControl(new VoltageOut(0));
         }
@@ -72,10 +72,8 @@ public class ShooterSubsystem extends SubsystemBase {
         }
         double currentSpeed = Math.abs(shooterMotorRight.getVelocity().refresh().getValueAsDouble());
         double targetSpeed = shooterWheelSpeed;
-        System.out.println("Current" + currentSpeed);
-        System.out.println("Target" + targetSpeed);
 
-        isAtSpeed = Math.abs(currentSpeed - targetSpeed) <= 0.05 * targetSpeed;
+        isAtSpeed = (Math.abs(currentSpeed - targetSpeed) <= 0.05 * targetSpeed) || (Math.abs(currentSpeed) >= Math.abs(targetSpeed));
         shooterWheelSpeed = 0;
     }    
 }

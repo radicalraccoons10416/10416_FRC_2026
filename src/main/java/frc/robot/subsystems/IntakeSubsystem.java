@@ -40,14 +40,15 @@ public class IntakeSubsystem extends SubsystemBase {
     // }
 
     public Command intakeUp = Commands.run(
-        () -> storeMotor.setControl(new VoltageOut(-2)))
-        .withTimeout(0.5)
+        () -> storeMotor.setControl(new VoltageOut(-3)))
+        .withTimeout(1.5)   
         .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
 
     public Command intakeDown = Commands.run(
         () -> storeMotor.setControl(new VoltageOut(2)))
         .withTimeout(0.5)
         .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
+
 
 
     public Command runIntake(States direction) { 

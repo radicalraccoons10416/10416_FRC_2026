@@ -1,6 +1,7 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.function.BooleanSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -23,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
-// import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -40,19 +41,19 @@ public class RobotContainer
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static final CommandXboxController driverController = new CommandXboxController(0);
   public static final CommandXboxController operatorController = new CommandXboxController(1);
-
+  
   // The robot's subsystems and commands are defined here...
   public final SwerveSubsystem drivebase = new SwerveSubsystem(
     new File(Filesystem.getDeployDirectory(), "swerve")
   );
-
+  
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
-
+  
   final IntakeSubsystem intake = new IntakeSubsystem();
   final ShooterSubsystem shooter = new ShooterSubsystem();
   final HopperSubsystem hopper = new HopperSubsystem();
-  // final ClimberSubsystem climber = new ClimberSubsystem();
+  final ClimberSubsystem climber = new ClimberSubsystem();
 
 
   public enum States {
@@ -64,13 +65,13 @@ public class RobotContainer
 
     States(double multiplier) {
         this.multiplier = multiplier;
-    }
+      }
 
-    public double getMultiplier() { 
+      public double getMultiplier() { 
         return multiplier;
     }
-}
-
+  }
+  
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
@@ -82,15 +83,15 @@ public class RobotContainer
   .scaleTranslation(1)
   .scaleRotation(0.85)
   .allianceRelativeControl(true);
-
-
-
-/**
-* The container for the robot. Contains subsystems, OI devices, and commands.
-*/
-  public RobotContainer()
-  {
-
+  
+  
+  
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+  */
+ public RobotContainer()
+ {
+   
     // Commands.runOnce(drivebase::zeroGyro);
 
     // Configure the trigger bindings
@@ -100,37 +101,39 @@ public class RobotContainer
     //Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
     NamedCommands.registerCommand("Shoot", shooter.runShooter(30));
-
+    
     //Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
-
+    
     //Set the default auto (do nothing) 
     autoChooser.setDefaultOption("Do Nothing", Commands.none());
-
+    
     //Add a simple auto option to have the robot drive forward for 1 second then stop
     autoChooser.addOption("Drive Forward", drivebase.driveForward().withTimeout(1));
     
     //Put the autoChooser on the SmartDashboard
     SmartDashboard.putData("Auto Chooser", autoChooser);
-
+    
   }
-
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
    * named factories in {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
-   */
-  private void configureBindings() {
+  */
+ private void configureBindings() {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-
+    
     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-
+    
+    BooleanSupplier trueSupplier = () -> true;
+    
     //=========================================================================
     //                                driver
     //=========================================================================
-
+    
     // reset gyro
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
@@ -142,7 +145,7 @@ public class RobotContainer
           shooter.runShooter(22)
         )
       );
-
+      
       // Shoot medium
       driverController.b().whileTrue(
         Commands.parallel(
@@ -150,7 +153,7 @@ public class RobotContainer
           shooter.runShooter(25)
         )
       );
-
+      
       // Shoot far
       driverController.y().whileTrue(
         Commands.parallel(
@@ -189,13 +192,22 @@ public class RobotContainer
         intake.intakeDown
       );
 
+
       // override hopper floor
-      
+      operatorController.a().whileTrue(
+        hopper.runHopper(States.FORWARD, trueSupplier)
+      );
 
       // climber up
-
+      operatorController.povUp().whileTrue(
+        climber.runClimber(States.FORWARD)
+      );
+      
       // climber down
-
+      operatorController.povDown().whileTrue(
+        climber.runClimber(States.BACKWARDS)
+      );
+      
     }
     
     

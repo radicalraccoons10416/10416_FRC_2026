@@ -100,7 +100,7 @@ public class RobotContainer
     
     //Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("Shoot", shooter.runShooter(30));
+    NamedCommands.registerCommand("Shoot", Commands.parallel(shooter.runShooter(25), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)));
     
     //Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -228,8 +228,9 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
+    return Commands.parallel(shooter.runShooter(25), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed));
     // Pass in the selected auto from the SmartDashboard as our desired autnomous commmand 
-    return autoChooser.getSelected();
+   // return autoChooser.getSelected();
   }
   
   public void setMotorBrake(boolean brake)

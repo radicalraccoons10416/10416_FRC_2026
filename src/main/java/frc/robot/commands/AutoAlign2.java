@@ -6,7 +6,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class AutoAlign2 extends Command{
     private PIDController rotController;
-    private HolonomicDriveController controller;
+    
 
-    // private bool
+    private boolean isAtRot = false;
+
+    public AutoAlign2(){
+        
+    }
 }

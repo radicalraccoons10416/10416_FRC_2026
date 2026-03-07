@@ -137,6 +137,8 @@ public class RobotContainer
     // reset gyro
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
+
+
       
       // Shoot close
       driverController.a().whileTrue(
@@ -168,22 +170,31 @@ public class RobotContainer
 
       // Intake
       operatorController.rightTrigger().whileTrue(
-        intake.runIntake(States.FORWARD)
+        intake.runIntake(States.FORWARD, -9)
       );
       
       // Dump fuel
       operatorController.leftTrigger().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.BACKWARDS, shooter::isShooterAtSpeed),
-          intake.runIntake(States.BACKWARDS)
+          intake.runIntake(States.BACKWARDS, -9)
         )
       );
 
       // intake up
+      // operatorController.leftBumper().onTrue(
+      //   Commands.parallel(
+      //     intake.intakeUp,
+      //     intake.runIntake(States.FORWARD)
+      //   )
+      // );
+
+      // agitate fuel
       operatorController.leftBumper().onTrue(
-        Commands.parallel(
-          intake.intakeUp,
-          intake.runIntake(States.FORWARD)
+        Commands.sequence(
+          intake.runIntake(States.BACKWARDS, -9).withTimeout(0.3),
+          intake.runIntake(States.BACKWARDS, -12).withTimeout(0.7)
+
         )
       );
 
@@ -191,7 +202,6 @@ public class RobotContainer
       operatorController.rightBumper().onTrue(
         intake.intakeDown
       );
-
 
       // override hopper floor
       operatorController.a().whileTrue(

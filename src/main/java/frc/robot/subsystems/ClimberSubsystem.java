@@ -11,8 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer.States;
 
 public class ClimberSubsystem extends SubsystemBase {
-    // TODO: Change ID
-    public final TalonFX climberMotor = new TalonFX(100, "rio");
+    public final TalonFX climberMotor = new TalonFX(56, "rio");
 
     private States state = States.NONE;
     private double wheelSpeed = 0;

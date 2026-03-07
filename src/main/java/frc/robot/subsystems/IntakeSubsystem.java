@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer.States;
 
 public class IntakeSubsystem extends SubsystemBase {
-    public final TalonFX intakeMotor = new TalonFX(31, "rio");
+    public final TalonFX intakeMotor = new TalonFX(55, "rio");
     public final TalonFX storeMotor = new TalonFX(54, "rio");
 
     private States state = States.NONE;
@@ -45,11 +45,9 @@ public class IntakeSubsystem extends SubsystemBase {
         .withTimeout(0.5)
         .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
 
-
-
-    public Command runIntake(States direction) { 
+    public Command runIntake(States direction, double speed) { 
         return run(()-> {
-            wheelSpeed = -9.0; // Set the speed when the trigger is pressed
+            wheelSpeed = -1 * speed; // Set the speed when the trigger is pressed
             state = direction;
         });
     }

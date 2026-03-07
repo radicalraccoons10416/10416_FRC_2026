@@ -138,8 +138,6 @@ public class RobotContainer
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
-
-      
       // Shoot close
       driverController.a().whileTrue(
         Commands.parallel(

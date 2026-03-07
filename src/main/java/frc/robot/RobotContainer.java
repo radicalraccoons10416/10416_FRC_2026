@@ -162,20 +162,24 @@ public class RobotContainer
         )
       );
 
+      driverController.x().whileTrue(
+        drivebase.aimAtTarget()
+      );
+
       //=========================================================================
       //                               operator
       //=========================================================================
 
       // Intake
       operatorController.rightTrigger().whileTrue(
-        intake.runIntake(States.FORWARD, -9)
+        intake.runIntake(States.FORWARD, 9)
       );
       
       // Dump fuel
       operatorController.leftTrigger().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.BACKWARDS, shooter::isShooterAtSpeed),
-          intake.runIntake(States.BACKWARDS, -9)
+          intake.runIntake(States.BACKWARDS, 9)
         )
       );
 
@@ -190,8 +194,8 @@ public class RobotContainer
       // agitate fuel
       operatorController.leftBumper().onTrue(
         Commands.sequence(
-          intake.runIntake(States.BACKWARDS, -9).withTimeout(0.3),
-          intake.runIntake(States.BACKWARDS, -12).withTimeout(0.7)
+          intake.runIntake(States.BACKWARDS, 3 ).withTimeout(0.1),
+          intake.runIntake(States.FORWARD, 12).withTimeout(0.5)
 
         )
       );

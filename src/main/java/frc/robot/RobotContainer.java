@@ -100,7 +100,10 @@ public class RobotContainer
     
     //Create the NamedCommands that will be used in PathPlanner
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
-    NamedCommands.registerCommand("Shoot", Commands.parallel(shooter.runShooter(25), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)));
+    NamedCommands.registerCommand("Shoot", Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(5));
+    NamedCommands.registerCommand("Shoot2", Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(10));
+    NamedCommands.registerCommand("ExtendIntake", intake.intakeDown);
+    NamedCommands.registerCommand("intake", intake.runIntake(States.FORWARD, 9).withTimeout(5));
     
     //Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -134,7 +137,7 @@ public class RobotContainer
     //                                driver
     //=========================================================================
     
-    // reset gyro
+    // reset gyro -> start button
     driverController.start()
       .onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
@@ -162,9 +165,9 @@ public class RobotContainer
         )
       );
 
-      driverController.x().whileTrue(
-        drivebase.aimAtTarget()
-      );
+      // driverController.x().whileTrue(
+      //   drivebase.aimAtTarget()
+      // );
 
       //=========================================================================
       //                               operator
@@ -230,9 +233,9 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    return Commands.parallel(shooter.runShooter(25), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed));
+    return Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(8);
     // Pass in the selected auto from the SmartDashboard as our desired autnomous commmand 
-   // return autoChooser.getSelected();
+   //return autoChooser.getSelected();
   }
   
   public void setMotorBrake(boolean brake)

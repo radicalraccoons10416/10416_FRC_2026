@@ -186,7 +186,7 @@ public class RobotContainer
         )
       );
 
-      // intake up
+      // // intake up
       // operatorController.leftBumper().onTrue(
       //   Commands.parallel(
       //     intake.intakeUp,
@@ -213,15 +213,15 @@ public class RobotContainer
         hopper.runHopper(States.FORWARD, trueSupplier)
       );
 
-      // climber up
-      operatorController.povUp().whileTrue(
-        climber.runClimber(States.FORWARD)
-      );
+      // // climber up
+      // operatorController.povUp().whileTrue(
+      //   climber.runClimber(States.FORWARD)
+      // );
       
-      // climber down
-      operatorController.povDown().whileTrue(
-        climber.runClimber(States.BACKWARDS)
-      );
+      // // climber down
+      // operatorController.povDown().whileTrue(
+      //   climber.runClimber(States.BACKWARDS)
+      // );
       
     }
     

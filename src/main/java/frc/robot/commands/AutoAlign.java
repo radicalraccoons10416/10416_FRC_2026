@@ -9,7 +9,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer.States;
@@ -39,15 +38,16 @@ public class AutoAlign extends Command {
     // PID controller that turns the robot to reduce tx error.
     // This controller runs in radians so output is consistent with swerve rad/s rotation command.
     private final PIDController turnController = new PIDController(1.8, 0.0, 0.015);
+    //kp 1.8 ki 0 kd 0.015
 
     // How close tx (in degrees) must be to be considered aligned.
-    private static final double TX_TOLERANCE_DEG = 1.0;
+    private static final double TX_TOLERANCE_DEG = 0.5;
     // Max auto rotation command sent to swerve (rad/s).
-    private static final double MAX_AUTO_ROTATION_RAD_PER_SEC = 2.0;
+    private static final double MAX_AUTO_ROTATION_RAD_PER_SEC = 5.0;
     // Scale factor for driver translation while auto-align is active.
     private static final double DRIVE_SCALE = 0.8;
     // Maximum lead angle allowed for moving-shot compensation (degrees).
-    private static final double MAX_LEAD_DEG = 6.0;
+    private static final double MAX_LEAD_DEG = 10.0;
     // Blend factor for lead compensation. 1.0 = full model, lower values reduce over-rotation while moving.
     private static final double LEAD_GAIN = 0.6;
     // Small heading error deadband to prevent jitter/spin near alignment.
@@ -145,17 +145,6 @@ public class AutoAlign extends Command {
             }
             rotationCmd = MathUtil.clamp(rotationCmd, -MAX_AUTO_ROTATION_RAD_PER_SEC, MAX_AUTO_ROTATION_RAD_PER_SEC);
         }
-
-        SmartDashboard.putNumber("AutoAlign/tx", txDeg);
-        SmartDashboard.putNumber("AutoAlign/txLeadSetpoint", lastLeadSetpointDeg);
-        SmartDashboard.putBoolean("AutoAlign/AtHeading", hubTagDetected && turnController.atSetpoint());
-        SmartDashboard.putBoolean("AutoAlign/TagDetected", tagDetected);
-        SmartDashboard.putBoolean("AutoAlign/HubTagDetected", hubTagDetected);
-        SmartDashboard.putBoolean("AutoAlign/HasValidDistance", hasValidDistance);
-        SmartDashboard.putBoolean("AutoAlign/UsingFallbackSpeed", !hasValidDistance);
-        SmartDashboard.putNumber("AutoAlign/DistanceMeters", distanceMeters);
-        SmartDashboard.putNumber("AutoAlign/ShooterSpeed", shooterSpeedCmd);
-        SmartDashboard.putNumber("AutoAlign/RotationCmd", rotationCmd);
 
         drivebase.drive(new Translation2d(xVelocity, yVelocity), rotationCmd, true);
     }

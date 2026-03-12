@@ -148,7 +148,7 @@ public class RobotContainer
       driverController.a().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
-          shooter.runShooter(23)
+          shooter.runShooter(22)
         )
       );
       
@@ -156,7 +156,7 @@ public class RobotContainer
       driverController.b().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
-          shooter.runShooter(26)
+          shooter.runShooter(25)
         )
       );
       
@@ -164,7 +164,7 @@ public class RobotContainer
       driverController.y().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
-          shooter.runShooter(30)
+          shooter.runShooter(28)
         )
       );
 

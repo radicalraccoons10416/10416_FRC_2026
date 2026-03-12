@@ -24,6 +24,14 @@ public class HopperSubsystem extends SubsystemBase {
         });
     }
 
+    /** Direct per-tick setter — call from another command's execute() instead of using runHopper(). */
+    public void setHopper(States direction, BooleanSupplier shooterReady) {
+        if (shooterReady.getAsBoolean()) {
+            hopperSpeed = 4;
+            state = direction;
+        }
+    }
+
     @Override
     public void periodic() {
         double outputVoltage = -1 * hopperSpeed * state.getMultiplier();

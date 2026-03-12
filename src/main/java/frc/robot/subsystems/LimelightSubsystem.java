@@ -12,6 +12,12 @@ import frc.robot.LimelightHelpers;
 import frc.robot.RobotContainer;
 
 public class LimelightSubsystem extends SubsystemBase {
+    private static final String LIMELIGHT_NAME = "limelight";
+    private static final int[] HUB_TAG_IDS = {
+        2, 3, 4, 5, 8, 9, 10, 11,
+        18, 19, 20, 21, 24, 25, 26, 27
+    };
+
     // Limelight Data table
     NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -21,10 +27,10 @@ public class LimelightSubsystem extends SubsystemBase {
     NetworkTableEntry tid = limelightTable.getEntry("tid");
     // Horizontal offset from crosshair to target in degrees
     NetworkTableEntry tx = limelightTable.getEntry("tx");
-    // Vertical offset from crosshair to target in degrees
-    NetworkTableEntry ty = limelightTable.getEntry("ty");
     // Target area (0% to 100% of image)
     NetworkTableEntry ta = limelightTable.getEntry("ta");
+    // Valid target flag (1 = target found, 0 = no target)
+    NetworkTableEntry tv = limelightTable.getEntry("tv");
 
     // A list of the robot's position relative to the april tag [tx, ty, tz, Pitch, Yaw, Roll]
     NetworkTableEntry botPose = limelightTable.getEntry("botpose_targetspace");
@@ -36,8 +42,6 @@ public class LimelightSubsystem extends SubsystemBase {
     // Allows pipeline to be set
     NetworkTableEntry pipelineToSet = limelightTable.getEntry("pipeline");
 
-    // Do you have a valid target?
-    boolean hasTarget = LimelightHelpers.getTV("limelight");
     // Horizontal offset from principal pixel to target in degrees
     NetworkTableEntry txnc = limelightTable.getEntry("txnc");
     // Vertical offset from principal pixel to target in degrees
@@ -51,11 +55,9 @@ public class LimelightSubsystem extends SubsystemBase {
     // CONSTRUCTOR
     public LimelightSubsystem(RobotContainer m_robotContainer) {
         // Switch to pipeline 0
-        LimelightHelpers.setPipelineIndex("limelight", 0);
-        // Sets LED settings
-        LimelightHelpers.setLEDMode_PipelineControl("limelight");
-        // Turns Light off
-        LimelightHelpers.setLEDMode_ForceOff("limelight");
+        LimelightHelpers.setPipelineIndex(LIMELIGHT_NAME, 0);
+        // Let pipeline control LED behavior instead of forcing LEDs off.
+        LimelightHelpers.setLEDMode_PipelineControl(LIMELIGHT_NAME);
 
         // The Robot Container is needed to access the Drivetrain
         this.m_robotContainer = m_robotContainer;
@@ -72,7 +74,7 @@ public class LimelightSubsystem extends SubsystemBase {
             // Gets the robot's angular velocity, converts from radians to rotations per second
             double omegaRps = Units.radiansToRotations(drivebase.getRobotVelocity().omegaRadiansPerSecond);
             // Initializes the Robot's Orientation
-            LimelightHelpers.SetRobotOrientation("limelight", headingDeg, 0, 0, 0, 0, 0);
+            LimelightHelpers.SetRobotOrientation(LIMELIGHT_NAME, headingDeg, 0, 0, 0, 0, 0);
             // Retrieves the robots pose estimation on the field from the Blue Origin using Megatag 2
             //var llMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
             //llMeasurement = null; // using both megatag 1 and 2?? Im just keeping the 1 from CommandSwerveDrivetrain - kevin
@@ -91,21 +93,34 @@ public class LimelightSubsystem extends SubsystemBase {
     
     // Returns the botPose list
     public double[] getBotPose(){
-        return botPose.getDoubleArray(new double[6]);
+        return LimelightHelpers.getBotPose_TargetSpace(LIMELIGHT_NAME);
     }
 
     // Returns the botPoseFieldBlue list
     public double[] getBotPoseFieldBlue(){
-        return botPoseFieldBlue.getDoubleArray(new double[11]);
+        return LimelightHelpers.getBotPose_wpiBlue(LIMELIGHT_NAME);
     }
 
     // Returns the Yaw of the robot
     public double getYaw() {
-        return getBotPose()[4];
+        double[] botPoseValues = getBotPose();
+        if (botPoseValues.length < 5) {
+            return 0.0;
+        }
+        return botPoseValues[4];
     }
 
     public double getTx() {
-        return tx.getDouble(0);
+        return LimelightHelpers.getTX(LIMELIGHT_NAME);
+    }
+
+    public double getDistanceToTargetMeters() {
+        double[] targetSpacePose = getBotPose();
+        if (targetSpacePose.length < 3) {
+            return Double.NaN;
+        }
+        double planarDistanceMeters = Math.hypot(targetSpacePose[0], targetSpacePose[2]);
+        return Double.isFinite(planarDistanceMeters) ? planarDistanceMeters : Double.NaN;
     }
 
     public double getTa() {
@@ -113,33 +128,49 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public int getTid() {
-        return (int) tid.getDouble(0);
+        return (int) LimelightHelpers.getFiducialID(LIMELIGHT_NAME);
     }
 
     public boolean isTagDetected() {
-        if (getTid() == 0){
+        return LimelightHelpers.getTV(LIMELIGHT_NAME);
+    }
+
+    public boolean isHubTagDetected() {
+        if (!isTagDetected()) {
             return false;
         }
-        else{
-            return true;
+        int id = getTid();
+        for (int hubTagId : HUB_TAG_IDS) {
+            if (hubTagId == id) {
+                return true;
+            }
         }
+        return false;
     }
 
     public double getTagCount() {
-        return getBotPoseFieldBlue()[7];
+        double[] fieldPoseValues = getBotPoseFieldBlue();
+        if (fieldPoseValues.length < 8) {
+            return 0.0;
+        }
+        return fieldPoseValues[7];
     }
 
     // Returns a Pose2D of the robot's X, Y and Yaw relative to the field
     public Pose2d getPose() {
+        double[] fieldPoseValues = getBotPoseFieldBlue();
+        if (fieldPoseValues.length < 6) {
+            return new Pose2d();
+        }
         // Creates Rotation 2D of the robot's yaw, converts to radians
-        Rotation2d rot = new Rotation2d(getBotPoseFieldBlue()[5] * Math.PI / 180);
+        Rotation2d rot = new Rotation2d(fieldPoseValues[5] * Math.PI / 180);
         // Creates a Pose2D of the robot's x, y, and yaw
-        Pose2d out = new Pose2d(getBotPoseFieldBlue()[0], getBotPoseFieldBlue()[1], rot);
+        Pose2d out = new Pose2d(fieldPoseValues[0], fieldPoseValues[1], rot);
         return out;
     }
 
     public int getActivePipeline() {
-        return (int) activePipeline.getDouble(0);
+        return (int) LimelightHelpers.getCurrentPipelineIndex(LIMELIGHT_NAME);
     }
 
     

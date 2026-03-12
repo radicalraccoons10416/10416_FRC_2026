@@ -22,11 +22,13 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoAlign;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 
@@ -54,6 +56,7 @@ public class RobotContainer
   final ShooterSubsystem shooter = new ShooterSubsystem();
   final HopperSubsystem hopper = new HopperSubsystem();
   final ClimberSubsystem climber = new ClimberSubsystem();
+  final LimelightSubsystem limelight = new LimelightSubsystem(this);
 
 
   public enum States {
@@ -165,9 +168,16 @@ public class RobotContainer
         )
       );
 
-      // driverController.x().whileTrue(
-      //   drivebase.aimAtTarget()
-      // );
+      driverController.x().whileTrue(
+        new AutoAlign(
+          drivebase,
+          limelight,
+          shooter,
+          hopper,
+          () -> driverController.getLeftY() * -1,
+          () -> driverController.getLeftX() * -1
+        )
+      );
 
       //=========================================================================
       //                               operator

@@ -52,6 +52,10 @@ public class ShooterSubsystem extends SubsystemBase {
         });
     }
 
+    public void setShooterWheelSpeed(double speed) {
+        shooterWheelSpeed = speed;
+    }
+
     public boolean isShooterAtSpeed() {
         return isAtSpeed;
     }

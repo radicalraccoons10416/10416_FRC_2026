@@ -77,7 +77,13 @@ public class ShooterSubsystem extends SubsystemBase {
         double currentSpeed = Math.abs(shooterMotorRight.getVelocity().refresh().getValueAsDouble());
         double targetSpeed = shooterWheelSpeed;
 
-        isAtSpeed = (Math.abs(currentSpeed - targetSpeed) <= 0.05 * targetSpeed) || (Math.abs(currentSpeed) >= Math.abs(targetSpeed));
+        double absoluteTargetSpeed = Math.abs(targetSpeed);
+        if (absoluteTargetSpeed < 1e-6) {
+            isAtSpeed = false;
+        } else {
+            isAtSpeed = (Math.abs(currentSpeed - absoluteTargetSpeed) <= 0.05 * absoluteTargetSpeed)
+                || (Math.abs(currentSpeed) >= absoluteTargetSpeed);
+        }
         shooterWheelSpeed = 0;
     }    
 }

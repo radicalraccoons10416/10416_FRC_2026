@@ -142,7 +142,13 @@ public class RobotContainer
     
     // reset gyro -> start button
     driverController.start()
-      .onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    .onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    
+    // drive slow
+    driverController.rightTrigger()
+      .onTrue(Commands.runOnce(() -> driveAngularVelocity
+      .scaleTranslation(0.3)))
+      .onFalse(Commands.runOnce(() -> driveAngularVelocity.scaleTranslation(1.0)));
 
       // Shoot close
       driverController.a().whileTrue(
@@ -168,6 +174,7 @@ public class RobotContainer
         )
       );
 
+      // autoalign shoot
       driverController.x().whileTrue(
         new AutoAlign(
           drivebase,
@@ -178,6 +185,8 @@ public class RobotContainer
           () -> driverController.getLeftX() * -1
         )
       );
+      
+      // Go slow mode - hold right trigger to slow down
 
       //=========================================================================
       //                               operator
@@ -243,9 +252,8 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    return Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(8);
     // Pass in the selected auto from the SmartDashboard as our desired autnomous commmand 
-   //return autoChooser.getSelected();
+   return autoChooser.getSelected();
   }
   
   public void setMotorBrake(boolean brake)

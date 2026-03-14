@@ -7,25 +7,26 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Start to pickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "ExtendIntake"
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "intake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Start to pickup"
+                }
+              }
+            ]
           }
         },
         {
@@ -37,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot2"
+            "name": "Shoot"
           }
         }
       ]

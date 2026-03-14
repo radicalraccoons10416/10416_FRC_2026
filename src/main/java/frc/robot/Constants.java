@@ -48,4 +48,13 @@ public final class Constants
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
   }
+
+  public static class VisionConstants
+  {
+    // Limelight mounting offsets relative to robot center.
+    // Positive LEFT offset means camera is mounted to the left of robot centerline.
+    // Positive FORWARD offset means camera is mounted in front of robot center.
+    public static final double LIMELIGHT_OFFSET_LEFT_METERS = Units.inchesToMeters(4.25);
+    public static final double LIMELIGHT_OFFSET_FORWARD_METERS = 0.0;
+  }
 }

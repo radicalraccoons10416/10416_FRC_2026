@@ -75,6 +75,7 @@ public class AutoAlign extends Command {
     // Defaults to 20 so the shooter always has a usable speed before the first tag is seen.
     private double lastShooterSpeed = 20.0;
     // Most recent lead setpoint computed from valid data; reused if distance is temporarily invalid.
+    // 
     private double lastLeadSetpointDeg = 0.0;
 
     private NetworkTableEntry distanceFromHubEntry;
@@ -105,16 +106,15 @@ public class AutoAlign extends Command {
 
         speedTable = new InterpolatingDoubleTreeMap();
         speedTable.put(1.0, 20.5);
-        speedTable.put(1.7, 23.5);
+        speedTable.put(1.7, 22.0);
         speedTable.put(2.0, 25.0);
-        speedTable.put(3.0, 32.0);
-        speedTable.put(3.5, 37.5);
+        speedTable.put(3.0, 29.0);
     }
 
     @Override
     public void initialize() {
         turnController.reset();
-        lastShooterSpeed = 22.0; // reset to default speed so shooter is always ready even before a tag is seen
+        lastShooterSpeed = 22.0;
         lastLeadSetpointDeg = 0.0;
     }
 
@@ -138,8 +138,6 @@ public class AutoAlign extends Command {
 
         if (hasValidDistance) {
             distanceFromHubEntry.setDouble(distanceMeters);
-            // headingErrorDeg stays as txDeg — shooter and limelight face the same direction,
-            // so tx=0 already means the shooter is aimed at the hub. No offset correction needed.
             if (isMovingShot) {
                 lastLeadSetpointDeg = calculateLeadSetpointDegrees(txDeg, distanceMeters, fieldVelocity);
             }
@@ -159,7 +157,7 @@ public class AutoAlign extends Command {
         if (hubTagDetected) {
             double txRad = Units.degreesToRadians(headingErrorDeg);
             double leadSetpointRad = Units.degreesToRadians(lastLeadSetpointDeg);
-            rotationCmd = turnController.calculate(txRad, leadSetpointRad);
+            rotationCmd = -turnController.calculate(txRad, leadSetpointRad);
             double closedLoopErrorDeg = Math.abs(headingErrorDeg - lastLeadSetpointDeg);
             if (closedLoopErrorDeg < HEADING_ERROR_DEADBAND_DEG) {
                 rotationCmd = 0.0;
@@ -179,8 +177,6 @@ public class AutoAlign extends Command {
     private double mapDistanceToShooterSpeed(double distanceMeters) {
         return speedTable.get(distanceMeters);
     }
-
-    
 
     private boolean isDistanceValid(double distanceMeters) {
         return Double.isFinite(distanceMeters)
@@ -209,7 +205,6 @@ public class AutoAlign extends Command {
     private double calculateRadialVelocityMetersPerSecond(double headingErrorDeg, ChassisSpeeds fieldVelocity) {
         double robotHeadingRad = drivebase.getPose().getRotation().getRadians();
         double losHeadingRad = robotHeadingRad - Units.degreesToRadians(headingErrorDeg);
-        // Project field velocity onto the LOS unit vector (pointing from robot toward hub).
         return fieldVelocity.vxMetersPerSecond * Math.cos(losHeadingRad)
              + fieldVelocity.vyMetersPerSecond * Math.sin(losHeadingRad);
     }

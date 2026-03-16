@@ -15,6 +15,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -252,8 +253,9 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
+    return Commands.parallel(shooter.runShooter(20.5).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(8);
     // Pass in the selected auto from the SmartDashboard as our desired autnomous commmand 
-   return autoChooser.getSelected();
+  //  return autoChooser.getSelected();
   }
   
   public void setMotorBrake(boolean brake)

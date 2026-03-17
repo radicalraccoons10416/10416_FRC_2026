@@ -165,7 +165,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       config = RobotConfig.fromGUISettings();
 
-      final boolean enableFeedforward = true;
+      final boolean enableFeedforward = false;
       // Configure AutoBuilder last
       AutoBuilder.configure(
           this::getPose,
@@ -175,6 +175,11 @@ public class SwerveSubsystem extends SubsystemBase
           this::getRobotVelocity,
           // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
           (speedsRobotRelative, moduleFeedForwards) -> {
+            speedsRobotRelative.omegaRadiansPerSecond *= -1;
+            double x = speedsRobotRelative.vxMetersPerSecond;
+            double y = speedsRobotRelative.vyMetersPerSecond;
+            speedsRobotRelative.vxMetersPerSecond = y;
+            speedsRobotRelative.vyMetersPerSecond = x * -1;
             if (enableFeedforward)
             {
               swerveDrive.drive(
@@ -191,7 +196,7 @@ public class SwerveSubsystem extends SubsystemBase
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
               // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0),
+              new PIDConstants(0.0, 0.0, 0.0),
               // Rotation PID constants
               new PIDConstants(0.0, 0.0, 0.0)
           ),

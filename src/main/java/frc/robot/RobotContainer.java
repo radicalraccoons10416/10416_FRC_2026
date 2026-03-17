@@ -6,9 +6,11 @@ import java.util.function.BooleanSupplier;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
@@ -80,9 +82,9 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-  () -> driverController.getLeftY() * -1,
-  () -> driverController.getLeftX() * -1)
-  .withControllerRotationAxis(driverController::getRightX)
+  () -> driverController.getLeftX() * -1,
+  () -> driverController.getLeftY())
+  .withControllerRotationAxis(() -> MathUtil.applyDeadband(driverController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND))
   .deadband(OperatorConstants.DEADBAND)
   .scaleTranslation(1)
   .scaleRotation(0.85)
@@ -108,6 +110,7 @@ public class RobotContainer
     NamedCommands.registerCommand("Shoot2", Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(10));
     NamedCommands.registerCommand("ExtendIntake", intake.intakeDown);
     NamedCommands.registerCommand("intake", intake.runIntake(States.FORWARD, 9).withTimeout(5));
+    NamedCommands.registerCommand("zeroGryo", drivebase.zeroGyroCommand());
     
     //Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -143,7 +146,7 @@ public class RobotContainer
     
     // reset gyro -> start button
     driverController.start()
-    .onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    .onTrue(Commands.runOnce(drivebase::zeroGyro));
     
     // drive slow
     driverController.rightTrigger()
@@ -253,9 +256,9 @@ public class RobotContainer
    */
   public Command getAutonomousCommand()
   {
-    return Commands.parallel(shooter.runShooter(20.5).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(8);
+    // return Commands.parallel(shooter.runShooter(20.5).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(8);
     // Pass in the selected auto from the SmartDashboard as our desired autnomous commmand 
-  //  return autoChooser.getSelected();
+   return autoChooser.getSelected();
   }
   
   public void setMotorBrake(boolean brake)

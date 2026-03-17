@@ -54,7 +54,7 @@ public final class Constants
     // Limelight mounting offsets relative to robot center.
     // Positive LEFT offset means camera is mounted to the left of robot centerline.
     // Positive FORWARD offset means camera is mounted in front of robot center.
-    public static final double LIMELIGHT_OFFSET_LEFT_METERS = Units.inchesToMeters(4.25);
+    public static final double LIMELIGHT_OFFSET_LEFT_METERS = 0.0;
     public static final double LIMELIGHT_OFFSET_FORWARD_METERS = 0.0;
   }
 }

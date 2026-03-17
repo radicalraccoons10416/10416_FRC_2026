@@ -190,10 +190,10 @@ public class SwerveSubsystem extends SubsystemBase
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(5.0, 0.0, 0.0),
               // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0)
+              new PIDConstants(5.0, 0.0, 0.0),
               // Rotation PID constants
+              new PIDConstants(0.0, 0.0, 0.0)
           ),
           config,
           // The robot configuration
@@ -563,6 +563,11 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.zeroGyro();
   }
 
+  public Command zeroGyroCommand(){
+    return run(()-> {
+        swerveDrive.zeroGyro();
+    });
+}
   /**
    * Checks if the alliance is red, defaults to false if alliance isn't available.
    *

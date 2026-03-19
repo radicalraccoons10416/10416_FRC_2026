@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -36,10 +37,10 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotorRight.setNeutralMode(NeutralModeValue.Coast);
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
-
-    public final TalonFX shooterMotorLeft = new TalonFX(51, "rio");
-    public final TalonFX shooterMotorRight = new TalonFX(52, "rio");
-    public final TalonFX intakeMotor = new TalonFX(53, "rio");
+    CANBus rio = new CANBus("rio");
+    public final TalonFX shooterMotorLeft = new TalonFX(51, rio);
+    public final TalonFX shooterMotorRight = new TalonFX(52, rio);
+    public final TalonFX intakeMotor = new TalonFX(53, rio);
     
     double shooterWheelSpeed = 0;
     boolean isAtSpeed = false;

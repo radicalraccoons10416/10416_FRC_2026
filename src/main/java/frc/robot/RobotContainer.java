@@ -60,6 +60,7 @@ public class RobotContainer
   final HopperSubsystem hopper = new HopperSubsystem();
   final ClimberSubsystem climber = new ClimberSubsystem();
   final LimelightSubsystem limelight = new LimelightSubsystem(this);
+  final Music music = new Music("./birthday.chrp");
 
 
   public enum States {
@@ -90,16 +91,11 @@ public class RobotContainer
   .scaleRotation(0.85)
   .allianceRelativeControl(true);
   
-  
-  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
   */
  public RobotContainer()
  {
-   
-    // Commands.runOnce(drivebase::zeroGyro);
-
     // Configure the trigger bindings
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -109,8 +105,23 @@ public class RobotContainer
     NamedCommands.registerCommand("Shoot", Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(5));
     NamedCommands.registerCommand("Shoot2", Commands.parallel(shooter.runShooter(21).repeatedly(), hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed)).withTimeout(10));
     NamedCommands.registerCommand("ExtendIntake", intake.intakeDown);
-    NamedCommands.registerCommand("intake", intake.runIntake(States.FORWARD, 9).withTimeout(5));
+    NamedCommands.registerCommand("intake", intake.runIntake(States.FORWARD, 9).repeatedly());
     NamedCommands.registerCommand("zeroGryo", drivebase.zeroGyroCommand());
+    NamedCommands.registerCommand("AutoAimShoot",
+    new AutoAlign(
+      drivebase,
+      limelight,
+      shooter,
+      hopper,
+      () -> driverController.getLeftY() * -1,
+      () -> driverController.getLeftX() * -1
+    ).repeatedly());
+    
+    NamedCommands.registerCommand("unstick", Commands.sequence(
+      intake.runIntake(States.BACKWARDS, 3 ).withTimeout(0.1),
+      intake.runIntake(States.FORWARD, 12).withTimeout(0.5),
+      Commands.waitSeconds(0.5)
+    ).repeatedly());
     
     //Have the autoChooser pull in all PathPlanner autos as options
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -146,13 +157,13 @@ public class RobotContainer
     
     // reset gyro -> start button
     driverController.start()
-    .onTrue(Commands.runOnce(drivebase::zeroGyro));
+    .onTrue(Commands.runOnce(drivebase::zeroGyroWithAlliance));
     
-    // drive slow
+    // Drive slow - hold right trigger to slow down
     driverController.rightTrigger()
       .onTrue(Commands.runOnce(() -> driveAngularVelocity
-      .scaleTranslation(0.3)))
-      .onFalse(Commands.runOnce(() -> driveAngularVelocity.scaleTranslation(1.0)));
+      .scaleTranslation(0.3).scaleRotation(0.3)))
+      .onFalse(Commands.runOnce(() -> driveAngularVelocity.scaleTranslation(1.0).scaleRotation(0.85)));
 
       // Shoot close
       driverController.a().whileTrue(
@@ -189,8 +200,16 @@ public class RobotContainer
           () -> driverController.getLeftX() * -1
         )
       );
+
+      // // Music controls
+      // driverController.leftBumper().onTrue(
+      //   Commands.runOnce(music::toggle)
+      // );
+
+      // driverController.rightBumper().onTrue(
+      //   Commands.runOnce(music::stop)
+      // );
       
-      // Go slow mode - hold right trigger to slow down
 
       //=========================================================================
       //                               operator
@@ -235,6 +254,7 @@ public class RobotContainer
       operatorController.a().whileTrue(
         hopper.runHopper(States.FORWARD, trueSupplier)
       );
+
 
       // // climber up
       // operatorController.povUp().whileTrue(

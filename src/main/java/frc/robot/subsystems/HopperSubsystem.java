@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -9,7 +10,8 @@ import frc.robot.RobotContainer.States;
 import java.util.function.BooleanSupplier;
 
 public class HopperSubsystem extends SubsystemBase {
-    public final TalonFX cimberMotor = new TalonFX(50, "rio");
+CANBus rio = new CANBus("rio");
+    public final TalonFX cimberMotor = new TalonFX(50, rio);
 
 
     private States state = States.NONE;

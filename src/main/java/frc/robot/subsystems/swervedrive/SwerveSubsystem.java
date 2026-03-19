@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
@@ -222,7 +223,7 @@ public class SwerveSubsystem extends SubsystemBase
 
     //Preload PathPlanner Path finding
     // IF USING CUSTOM PATHFINDER ADD BEFORE THIS LINE
-    PathfindingCommand.warmupCommand().schedule();
+    CommandScheduler.getInstance().schedule(PathfindingCommand.warmupCommand());
   }
 
   /**
@@ -728,13 +729,15 @@ public class SwerveSubsystem extends SubsystemBase
 
   public void updateVisionOdometry(){
     boolean rejectUpdate = false;
-    var heading = this.getHeading().getDegrees() + 90;
+    var heading = this.getHeading().getDegrees();
     var ally = DriverStation.getAlliance();
-    if(ally.isPresent() && ally.get() == Alliance.Blue){
-      LimelightHelpers.SetRobotOrientation("limelight", heading-180, 0, 0, 0, 0, 0);
-    } else{
-      LimelightHelpers.SetRobotOrientation("limelight", heading, 0, 0, 0, 0, 0);
-    }
+    LimelightHelpers.SetRobotOrientation("limelight", heading-180, 0, 0, 0, 0, 0);
+
+    // if(ally.isPresent() && ally.get() == Alliance.Blue){
+    //   LimelightHelpers.SetRobotOrientation("limelight", heading-180, 0, 0, 0, 0, 0);
+    // } else{
+    //   LimelightHelpers.SetRobotOrientation("limelight", heading, 0, 0, 0, 0, 0);
+    // }
     LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("");
     if(Math.abs(swerveDrive.getRobotVelocity().omegaRadiansPerSecond) > 2*Math.PI){ // if our angular velocity is greater than 360 degrees per second, ignore vision updates
       rejectUpdate = true;

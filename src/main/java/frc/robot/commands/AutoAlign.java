@@ -37,7 +37,7 @@ public class AutoAlign extends Command {
 
     // PID controller that turns the robot to reduce tx error.
     // This controller runs in radians so output is consistent with swerve rad/s rotation command.
-    private final PIDController turnController = new PIDController(1.8, 0.0, 0.015);
+    private final PIDController turnController = new PIDController(5.0, 0.0, 0.015);
     //kp 1.8 ki 0 kd 0.015
 
     // How close tx (in degrees) must be to be considered aligned.
@@ -75,7 +75,6 @@ public class AutoAlign extends Command {
     // Defaults to 20 so the shooter always has a usable speed before the first tag is seen.
     private double lastShooterSpeed = 20.0;
     // Most recent lead setpoint computed from valid data; reused if distance is temporarily invalid.
-    // 
     private double lastLeadSetpointDeg = 0.0;
 
     private NetworkTableEntry distanceFromHubEntry;
@@ -193,7 +192,7 @@ public class AutoAlign extends Command {
                 + fieldVelocity.vyMetersPerSecond * Math.cos(losHeadingRad);
 
         double timeOfFlightSeconds = estimateTimeOfFlightSeconds(distanceMeters);
-        double leadRadians = -Math.atan2(
+        double leadRadians = Math.atan2(
             lateralVelocityMetersPerSecond * timeOfFlightSeconds,
             Math.max(distanceMeters, MIN_DISTANCE_METERS)
         );

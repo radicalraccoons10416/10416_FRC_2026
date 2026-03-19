@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -9,8 +10,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer.States;
 
 public class IntakeSubsystem extends SubsystemBase {
-    public final TalonFX intakeMotor = new TalonFX(55, "rio");
-    public final TalonFX storeMotor = new TalonFX(54, "rio");
+    CANBus rio = new CANBus("rio");
+    public final TalonFX intakeMotor = new TalonFX(55, rio);
+    public final TalonFX storeMotor = new TalonFX(54, rio);
 
     private States state = States.NONE;
     private double wheelSpeed = 0.0;
@@ -41,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
 
     public Command intakeDown = Commands.run(
-        () -> storeMotor.setControl(new VoltageOut(2)))
+        () -> storeMotor.setControl(new VoltageOut(3)))
         .withTimeout(0.5)
         .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
 

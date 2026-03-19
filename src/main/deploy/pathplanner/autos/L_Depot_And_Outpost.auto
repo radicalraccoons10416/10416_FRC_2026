@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftStartToDepot"
+                  "pathName": "L_Start_To_Depot"
                 }
               },
               {
@@ -32,7 +32,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "IntakeToShoot"
+            "pathName": "Depot_To_Outpost"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost_To_Shoot"
           }
         },
         {
@@ -46,22 +58,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "unstick"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    }
-                  ]
+                  "name": "unstick"
                 }
               }
             ]
@@ -71,6 +70,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Left",
   "choreoAuto": false
 }

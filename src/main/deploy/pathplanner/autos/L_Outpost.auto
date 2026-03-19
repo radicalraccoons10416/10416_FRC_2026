@@ -1,0 +1,56 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ExtendIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "L_Start_To_Outpost"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost_To_Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoAimShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "unstick"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Left",
+  "choreoAuto": false
+}

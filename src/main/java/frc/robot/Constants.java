@@ -52,7 +52,7 @@ public final class Constants
   public static class VisionConstants
   {
 
-    public static final double LIMELIGHT_OFFSET_LEFT_METERS = -0.11;
+    public static final double LIMELIGHT_OFFSET_LEFT_METERS = 0.0;
     public static final double LIMELIGHT_OFFSET_FORWARD_METERS = 0.0;
   }
 }

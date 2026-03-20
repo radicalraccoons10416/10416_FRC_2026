@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6953771551726238,
-        "y": 4.885312500000811
+        "x": 0.7637931034482766,
+        "y": 5.031918103448277
       },
       "prevControl": null,
       "nextControl": {
-        "x": -0.2428987068965507,
-        "y": 8.315883620689654
+        "x": 0.27510775861823317,
+        "y": 8.96094827586207
       },
       "isLocked": false,
       "linkedName": "reverseDepot"
@@ -28,7 +28,12 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4878563885955647,
+      "rotationDegrees": -45.0
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",

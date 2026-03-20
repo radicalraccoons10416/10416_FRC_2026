@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 0.42171336206896626,
-        "y": 0.41872844827586275
+        "x": 0.4119396551724145,
+        "y": 0.878092672413793
       },
       "prevControl": {
-        "x": 0.10446170396935267,
-        "y": 0.20768226558750624
+        "x": 0.0946879970728009,
+        "y": 0.6670464897254365
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "RightOutpost"
+      "linkedName": "outpost"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": null,

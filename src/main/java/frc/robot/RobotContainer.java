@@ -223,7 +223,7 @@ public class RobotContainer
       // Dump fuel
       operatorController.leftTrigger().whileTrue(
         Commands.parallel(
-          hopper.runHopper(States.BACKWARDS, shooter::isShooterAtSpeed),
+          hopper.runHopper(States.BACKWARDS, trueSupplier),
           intake.runIntake(States.BACKWARDS, 9)
         )
       );

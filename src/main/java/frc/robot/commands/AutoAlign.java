@@ -106,10 +106,10 @@ public class AutoAlign extends Command {
         distanceFromHubEntry = autoAlignTable.getEntry("DistanceFromHub");
 
         speedTable = new InterpolatingDoubleTreeMap();
-        speedTable.put(1.0, 20.5);
-        speedTable.put(1.7, 22.0);
-        speedTable.put(2.0, 25.0);
-        speedTable.put(3.0, 29.0);
+        speedTable.put(1.7, 21.25);
+        speedTable.put(2.0, 21.5);
+        speedTable.put(2.5, 25.0);
+        speedTable.put(3.3, 29.0);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class AutoAlign extends Command {
         }
         // double distanceMeters = hubTagDetected ? limelight.getDistanceToTargetMeters() : Double.NaN;
         double distanceMeters = Math.sqrt(Math.pow(xOff, 2) + Math.pow(yOff, 2));
-        
+
         boolean hasValidDistance = hubTagDetected && isDistanceValid(distanceMeters);
         double headingErrorDeg = error;
         lastLeadSetpointDeg = 0.0;

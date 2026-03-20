@@ -13,13 +13,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Other_R_Start_To_Outpost"
+            "pathName": "C_Start_To_Outpost"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.5
+            "waitTime": 2.0
           }
         },
         {

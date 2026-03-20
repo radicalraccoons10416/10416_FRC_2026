@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -9,6 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer.States;
@@ -129,16 +131,27 @@ public class AutoAlign extends Command {
         boolean isMovingShot = measuredSpeedMps > MIN_MOVING_SHOT_SPEED_MPS;
 
         boolean hubTagDetected = limelight.isHubTagDetected();
-        double txDeg = hubTagDetected ? limelight.getTx() : 0.0;
+        Pose2d pos = drivebase.getPose();
+        double targetHeading;
+        if(drivebase.isRedAlliance()){
+            double xOff = 11.916 - pos.getX();
+            double yOff = 4.03 - pos.getY();
+            targetHeading = Math.atan2(xOff, yOff);
+        } else {
+            double xOff = 4.625 - pos.getX();
+            double yOff = 4.03 - pos.getY();
+            targetHeading = Math.atan2(xOff, yOff);
+        }
+        double error = pos.getRotation().getDegrees() - ((targetHeading*360.0)/(2*Math.PI));
         double distanceMeters = hubTagDetected ? limelight.getDistanceToTargetMeters() : Double.NaN;
         boolean hasValidDistance = hubTagDetected && isDistanceValid(distanceMeters);
-        double headingErrorDeg = txDeg;
+        double headingErrorDeg = error;
         lastLeadSetpointDeg = 0.0;
 
         if (hasValidDistance) {
             distanceFromHubEntry.setDouble(distanceMeters);
             if (isMovingShot) {
-                lastLeadSetpointDeg = calculateLeadSetpointDegrees(txDeg, distanceMeters, fieldVelocity);
+                lastLeadSetpointDeg = calculateLeadSetpointDegrees(error, distanceMeters, fieldVelocity);
             }
 
             lastShooterSpeed = mapDistanceToShooterSpeed(distanceMeters);

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.431,
-        "y": 5.100334051724137
+        "x": 0.6856034482758628,
+        "y": 5.178523706896551
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0894482758620683,
-        "y": 5.706303879310344
+        "x": 4.116174568965518,
+        "y": 6.615258620689656
       },
       "isLocked": false,
       "linkedName": "testPickup"
     },
     {
       "anchor": {
-        "x": 0.4314870689655179,
-        "y": 0.4480495689655174
+        "x": 0.14804956896551802,
+        "y": 0.41872844827586275
       },
       "prevControl": {
-        "x": 1.3013469827586213,
-        "y": 0.8683189655172419
+        "x": 2.43509698275862,
+        "y": 0.4969181034482767
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.23999999999999921,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 0.48468848996831937,
+      "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],

@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -9,6 +10,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.RobotContainer.States;
@@ -104,10 +106,10 @@ public class AutoAlign extends Command {
         distanceFromHubEntry = autoAlignTable.getEntry("DistanceFromHub");
 
         speedTable = new InterpolatingDoubleTreeMap();
-        speedTable.put(1.0, 20.5);
-        speedTable.put(1.7, 22.0);
-        speedTable.put(2.0, 25.0);
-        speedTable.put(3.0, 29.0);
+        speedTable.put(1.7, 21.25);
+        speedTable.put(2.0, 21.5);
+        speedTable.put(2.5, 25.0);
+        speedTable.put(3.3, 29.0);
     }
 
     @Override
@@ -129,16 +131,42 @@ public class AutoAlign extends Command {
         boolean isMovingShot = measuredSpeedMps > MIN_MOVING_SHOT_SPEED_MPS;
 
         boolean hubTagDetected = limelight.isHubTagDetected();
-        double txDeg = hubTagDetected ? limelight.getTx() : 0.0;
-        double distanceMeters = hubTagDetected ? limelight.getDistanceToTargetMeters() : Double.NaN;
+        Pose2d pos = drivebase.getPose();
+        double targetHeading;
+        double hubX;
+        double hubY;
+        if(drivebase.isRedAlliance()){
+            hubX = 11.916;
+            hubY = 4.03;
+        } else {
+            hubX = 4.625;
+            hubY = 4.03;
+        }
+        //Finds x and y offset to hub depending on alliance and then finds target heading using arctan function
+        double xOff = hubX - pos.getX();
+        double yOff = hubY - pos.getY();
+        targetHeading = Math.atan2(yOff, xOff);
+        //Finds difference between target heading and actual heading to calculate error
+        double error = pos.getRotation().getDegrees() - ((targetHeading*360.0)/(2*Math.PI));
+        // System.out.println("Degrees" + pos.getRotation().getDegrees());
+        // System.out.println("Target" + ((targetHeading*360.0)/(2*Math.PI)));
+        //Finds shortest turn distance
+        if(error > 180) {
+            error = -(360.0 - error);
+        } else if(error < -180) {
+            error = -(-360.0 - error);
+        }
+        // double distanceMeters = hubTagDetected ? limelight.getDistanceToTargetMeters() : Double.NaN;
+        double distanceMeters = Math.sqrt(Math.pow(xOff, 2) + Math.pow(yOff, 2));
+
         boolean hasValidDistance = hubTagDetected && isDistanceValid(distanceMeters);
-        double headingErrorDeg = txDeg;
+        double headingErrorDeg = error;
         lastLeadSetpointDeg = 0.0;
 
         if (hasValidDistance) {
             distanceFromHubEntry.setDouble(distanceMeters);
             if (isMovingShot) {
-                lastLeadSetpointDeg = calculateLeadSetpointDegrees(txDeg, distanceMeters, fieldVelocity);
+                lastLeadSetpointDeg = calculateLeadSetpointDegrees(error, distanceMeters, fieldVelocity);
             }
 
             lastShooterSpeed = mapDistanceToShooterSpeed(distanceMeters);
@@ -153,15 +181,14 @@ public class AutoAlign extends Command {
         hopper.setHopper(States.FORWARD, () -> canFeedFromLatchedSolution && shooter.isShooterAtSpeed());
 
         double rotationCmd = 0.0;
-        if (hubTagDetected) {
-            double txRad = Units.degreesToRadians(headingErrorDeg);
-            double leadSetpointRad = Units.degreesToRadians(lastLeadSetpointDeg);
-            rotationCmd = -turnController.calculate(txRad, leadSetpointRad);
-            double closedLoopErrorDeg = Math.abs(headingErrorDeg - lastLeadSetpointDeg);
-            if (closedLoopErrorDeg < HEADING_ERROR_DEADBAND_DEG) {
-                rotationCmd = 0.0;
-            }
-            rotationCmd = MathUtil.clamp(rotationCmd, -MAX_AUTO_ROTATION_RAD_PER_SEC, MAX_AUTO_ROTATION_RAD_PER_SEC);
+        double txRad = Units.degreesToRadians(headingErrorDeg);
+        double leadSetpointRad = Units.degreesToRadians(lastLeadSetpointDeg);
+        rotationCmd = -turnController.calculate(txRad, leadSetpointRad);
+        double closedLoopErrorDeg = Math.abs(headingErrorDeg - lastLeadSetpointDeg);
+        if (closedLoopErrorDeg < HEADING_ERROR_DEADBAND_DEG) {
+            rotationCmd = 0.0;
+        
+        rotationCmd = MathUtil.clamp(rotationCmd, -MAX_AUTO_ROTATION_RAD_PER_SEC, MAX_AUTO_ROTATION_RAD_PER_SEC);
         }
 
         drivebase.drive(new Translation2d(xVelocity, yVelocity), rotationCmd, true);

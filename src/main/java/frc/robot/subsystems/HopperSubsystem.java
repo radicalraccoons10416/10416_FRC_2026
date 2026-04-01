@@ -20,16 +20,15 @@ CANBus rio = new CANBus("rio");
     public Command runHopper(States direction, BooleanSupplier shooterReady) {
         return run(() -> {
             if (shooterReady.getAsBoolean()) {
-                hopperSpeed = 4;
+                hopperSpeed = 8;
                 state = direction;
             }
         });
     }
 
-    /** Direct per-tick setter — call from another command's execute() instead of using runHopper(). */
     public void setHopper(States direction, BooleanSupplier shooterReady) {
         if (shooterReady.getAsBoolean()) {
-            hopperSpeed = 4;
+            hopperSpeed = 8;
             state = direction;
         }
     }

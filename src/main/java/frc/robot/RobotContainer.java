@@ -162,14 +162,15 @@ public class RobotContainer
     // Drive slow - hold right trigger to slow down
     driverController.rightTrigger()
       .onTrue(Commands.runOnce(() -> driveAngularVelocity
-      .scaleTranslation(0.3).scaleRotation(0.3)))
+      .scaleTranslation(0.75).scaleRotation(0.3)))
       .onFalse(Commands.runOnce(() -> driveAngularVelocity.scaleTranslation(1.0).scaleRotation(0.85)));
 
       // Shoot close
       driverController.a().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
-          shooter.runShooter(22)
+          shooter.runShooter(23
+          )
         )
       );
       
@@ -217,11 +218,11 @@ public class RobotContainer
 
       // Intake
       operatorController.rightTrigger().whileTrue(
-        intake.runIntake(States.FORWARD, 9)
+        intake.runIntake(States.FORWARD, 12)
       );
       
       // Dump fuel
-      operatorController.leftTrigger().whileTrue(
+      driverController.leftTrigger().whileTrue(
         Commands.parallel(
           hopper.runHopper(States.BACKWARDS, trueSupplier),
           intake.runIntake(States.BACKWARDS, 9)
@@ -239,7 +240,7 @@ public class RobotContainer
       // agitate fuel
       operatorController.leftBumper().onTrue(
         Commands.sequence(
-          intake.runIntake(States.BACKWARDS, 3 ).withTimeout(0.1),
+          intake.runIntake(States.BACKWARDS, 3).withTimeout(0.1),
           intake.runIntake(States.FORWARD, 12).withTimeout(0.5)
 
         )

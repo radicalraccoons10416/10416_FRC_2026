@@ -20,7 +20,7 @@ CANBus rio = new CANBus("rio");
     public Command runHopper(States direction, BooleanSupplier shooterReady) {
         return run(() -> {
             if (shooterReady.getAsBoolean()) {
-                hopperSpeed = 8;
+                hopperSpeed = 10;
                 state = direction;
             }
         });
@@ -28,7 +28,7 @@ CANBus rio = new CANBus("rio");
 
     public void setHopper(States direction, BooleanSupplier shooterReady) {
         if (shooterReady.getAsBoolean()) {
-            hopperSpeed = 8;
+            hopperSpeed = 10;
             state = direction;
         }
     }

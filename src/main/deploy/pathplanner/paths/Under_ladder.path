@@ -8,24 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9310696974782022,
-        "y": 4.471387876173147
+        "x": 0.323976293103449,
+        "y": 4.572553879310346
       },
       "isLocked": false,
       "linkedName": "testPickup"
     },
     {
       "anchor": {
-        "x": 2.0539224137931043,
-        "y": 0.6728448275862069
+        "x": 0.49990301724138,
+        "y": 3.898168103448276
       },
       "prevControl": {
-        "x": 2.874913793103449,
-        "y": 0.7217133620689662
+        "x": 0.48669748611765484,
+        "y": 4.386772755026108
       },
       "nextControl": {
-        "x": 1.487964894926835,
-        "y": 0.6391568800346429
+        "x": 0.5194504310344834,
+        "y": 3.174913793103448
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.4314870689655179,
+        "y": 2.1584482758620687
+      },
+      "prevControl": {
+        "x": 0.4296544989224145,
+        "y": 2.6654593211206894
+      },
+      "nextControl": {
+        "x": 0.43331963900862136,
+        "y": 1.651437230603448
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +52,8 @@
         "y": 0.6728448275862069
       },
       "prevControl": {
-        "x": 1.2329310344827593,
-        "y": 0.6728448275862069
+        "x": 1.0374568965517248,
+        "y": 1.7088577586206894
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,15 +62,19 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.3665338645418326,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 1.95,
+      "rotationDegrees": 90.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9643916913946611,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 2.501483679525222,
+      "maxWaypointRelativePos": 3.0,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,

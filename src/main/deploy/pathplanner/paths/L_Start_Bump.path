@@ -3,51 +3,51 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7149245689655179,
-        "y": 0.6728448275862069
+        "x": 3.61771551724138,
+        "y": 5.080786637931035
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8456025334266437,
-        "y": 2.1975293232207744
+        "x": 3.197446120689656,
+        "y": 5.725851293103449
       },
       "isLocked": false,
-      "linkedName": "outpost"
+      "linkedName": "leftbump"
     },
     {
       "anchor": {
-        "x": 2.14188577586207,
-        "y": 3.8688469827586207
+        "x": 6.393448275862069,
+        "y": 6.224310344827586
       },
       "prevControl": {
-        "x": 2.15119076896118,
-        "y": 2.863907728054744
+        "x": 6.242029898787367,
+        "y": 5.459647540600339
       },
       "nextControl": {
-        "x": 2.132112068965518,
-        "y": 4.924407327586207
+        "x": 6.588922413793104,
+        "y": 7.211454741379311
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7637931034482766,
-        "y": 5.031918103448277
+        "x": 7.800862068965518,
+        "y": 7.1234913793103445
       },
       "prevControl": {
-        "x": 1.5359159482758629,
-        "y": 5.549924568965517
+        "x": 7.32827122277223,
+        "y": 6.935009656223538
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "reverseDepot"
+      "linkedName": "left over bump"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.3389651531151054,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 0.690571049136786,
+      "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [],
@@ -63,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": null,

@@ -3,60 +3,64 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5878663793103456,
-        "y": 5.198071120689656
+        "x": 7.800862068965518,
+        "y": 7.1234913793103445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9310696974782022,
-        "y": 4.471387876173147
+        "x": 8.0251813660612,
+        "y": 6.161250220522197
       },
       "isLocked": false,
-      "linkedName": "testPickup"
+      "linkedName": "left over bump"
     },
     {
       "anchor": {
-        "x": 2.0539224137931043,
-        "y": 0.6728448275862069
+        "x": 7.146023706896552,
+        "y": 4.337984913793104
       },
       "prevControl": {
-        "x": 2.874913793103449,
-        "y": 0.7217133620689662
+        "x": 7.948918896288699,
+        "y": 4.337984913793104
       },
       "nextControl": {
-        "x": 1.487964894926835,
-        "y": 0.6391568800346429
+        "x": 6.070915948275863,
+        "y": 4.337984913793104
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7149245689655179,
-        "y": 0.6728448275862069
+        "x": 6.149105603448277,
+        "y": 5.84313577586207
       },
       "prevControl": {
-        "x": 1.2329310344827593,
-        "y": 0.6728448275862069
+        "x": 6.149105603448277,
+        "y": 5.354450431034484
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "outpost"
+      "linkedName": "Left_Center_Pickup_Done"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 0.4860557768924303,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 1.00398406374502,
       "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9643916913946611,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.044510385756676554,
+      "maxWaypointRelativePos": 1.6053412462908,
       "constraints": {
-        "maxVelocity": 1.0,
+        "maxVelocity": 0.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -77,13 +81,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

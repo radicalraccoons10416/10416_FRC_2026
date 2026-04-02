@@ -193,9 +193,9 @@ public class SwerveSubsystem extends SubsystemBase
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
               // Translation PID constants
-              new PIDConstants(5.0, 0.0, 0.0),
+              new PIDConstants(5.0, 0.0, 0.0025),
               // Rotation PID constants
-              new PIDConstants(5.0, 0.0, 0.0)
+              new PIDConstants(5.0, 0.0, 0.002)
           ),
           config,
           // The robot configuration

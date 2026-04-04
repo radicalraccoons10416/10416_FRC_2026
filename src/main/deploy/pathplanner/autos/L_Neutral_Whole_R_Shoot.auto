@@ -11,13 +11,19 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "L_Reverse_Start_To_Neutral"
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "L_Start_To_Depot"
+                  "pathName": "L_Neutral_Whole"
                 }
               },
               {
@@ -32,7 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot_To_L_Shoot"
+            "pathName": "R_Neutral_Flipped_To_R_Shoot"
           }
         },
         {
@@ -58,6 +64,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left_Alliance",
+  "folder": "Left_Neutral",
   "choreoAuto": false
 }

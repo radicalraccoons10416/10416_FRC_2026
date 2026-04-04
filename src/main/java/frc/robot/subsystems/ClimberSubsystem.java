@@ -12,7 +12,7 @@ import frc.robot.RobotContainer.States;
 
 public class ClimberSubsystem extends SubsystemBase {
     CANBus rio = new CANBus("rio");
-    public final TalonFX climberMotor = new TalonFX(56, rio);
+    // public final TalonFX climberMotor = new TalonFX(56, rio);
 
     private States state = States.NONE;
     private double wheelSpeed = 0;
@@ -46,7 +46,7 @@ public class ClimberSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         double outputVoltage = wheelSpeed * state.getMultiplier();
-        climberMotor.setControl(new VoltageOut(outputVoltage));
+        // climberMotor.setControl(new VoltageOut(outputVoltage));
         // climberMotor.setControl(m_request.withPosition(position));
         wheelSpeed = 0;
     }

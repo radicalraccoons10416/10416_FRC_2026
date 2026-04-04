@@ -12,20 +12,20 @@
         "y": 8.491810344827588
       },
       "isLocked": false,
-      "linkedName": "CenterStart"
+      "linkedName": "Center_Start"
     },
     {
       "anchor": {
-        "x": 0.6856034482758628,
-        "y": 5.178523706896551
+        "x": 0.6465086206896558,
+        "y": 5.237165948275862
       },
       "prevControl": {
-        "x": 0.6567693965517256,
-        "y": 7.983577586206897
+        "x": 0.6176745689655186,
+        "y": 8.042219827586207
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "testPickup"
+      "linkedName": "Depot"
     }
   ],
   "rotationTargets": [
@@ -64,7 +64,7 @@
     "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Center_Start",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

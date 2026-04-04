@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6856034482758628,
-        "y": 5.178523706896551
+        "x": 0.6465086206896558,
+        "y": 5.237165948275862
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.457726293103449,
-        "y": 5.3055818965517245
+        "x": 1.4186314655172418,
+        "y": 5.364224137931036
       },
       "isLocked": false,
-      "linkedName": "testPickup"
+      "linkedName": "Depot"
     },
     {
       "anchor": {
-        "x": 2.6501185344827594,
-        "y": 5.178523706896551
+        "x": 2.904234913793104,
+        "y": 4.9146336206896555
       },
       "prevControl": {
-        "x": 2.0343750000000007,
-        "y": 5.383771551724139
+        "x": 2.2884913793103454,
+        "y": 5.119881465517243
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": -32.29797749587226
   },
   "reversed": false,
-  "folder": null,
+  "folder": "X_To_Shoot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 59.99999999999999

@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "L_Start_To_Depot"
+                  "pathName": "C_Start_To_Depot"
                 }
               },
               {
@@ -32,7 +32,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot_To_L_Shoot"
+            "pathName": "Depot_To_Outpost"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost_To_R_Shoot"
           }
         },
         {
@@ -58,6 +70,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left_Alliance",
+  "folder": "Center_Alliance",
   "choreoAuto": false
 }

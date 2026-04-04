@@ -3,35 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7149245689655179,
-        "y": 0.6728448275862069
+        "x": 7.800862068965518,
+        "y": 1.0637931034482755
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.627489224137932,
-        "y": 3.9763577586206926
+        "x": 4.9078448275862065,
+        "y": 3.4290301724137935
       },
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "Right_Neutral_Flipped"
     },
     {
       "anchor": {
-        "x": 0.7637931034482766,
-        "y": 5.031918103448277
+        "x": 3.2854094827586215,
+        "y": 2.7253232758620687
       },
       "prevControl": {
-        "x": 1.6532004310344834,
-        "y": 5.755172413793105
+        "x": 4.174816810344831,
+        "y": 2.373469827586206
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot_Reverse"
+      "linkedName": "Right_Shoot"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.4783526927138335,
-      "rotationDegrees": -90.0
+      "waypointRelativePos": 0.1673306772908366,
+      "rotationDegrees": 135.0
+    },
+    {
+      "waypointRelativePos": 0.6494023904382469,
+      "rotationDegrees": 135.0
+    },
+    {
+      "waypointRelativePos": 0.9867197875166003,
+      "rotationDegrees": 135.0
     }
   ],
   "constraintZones": [],
@@ -47,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 45.0
   },
   "reversed": false,
-  "folder": "Alliance_Zone",
+  "folder": "X_To_Shoot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

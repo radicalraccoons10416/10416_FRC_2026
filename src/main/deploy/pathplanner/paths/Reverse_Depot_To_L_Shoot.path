@@ -3,44 +3,44 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.627489224137931,
+        "x": 0.7637931034482766,
         "y": 5.031918103448277
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.38261853448275884,
-        "y": 8.325657327586207
+        "x": 0.27510775861823317,
+        "y": 8.96094827586207
       },
       "isLocked": false,
-      "linkedName": "Left_Start"
+      "linkedName": "Depot_Reverse"
     },
     {
       "anchor": {
-        "x": 0.6465086206896558,
-        "y": 5.237165948275862
+        "x": 3.226767241379311,
+        "y": 5.422866379310344
       },
       "prevControl": {
-        "x": 0.6465086206896556,
-        "y": 7.438876472725866
+        "x": 1.2524784482758629,
+        "y": 6.224310344827586
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5476923076923121,
-      "rotationDegrees": 59.99999999999999
+      "waypointRelativePos": 0.4878563885955647,
+      "rotationDegrees": -45.0
     }
   ],
   "constraintZones": [
     {
-      "name": "Slow Down",
-      "minWaypointRelativePos": 0.6007005253940462,
-      "maxWaypointRelativePos": 1.0,
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.3640552995391722,
       "constraints": {
-        "maxVelocity": 0.8,
+        "maxVelocity": 0.75,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
@@ -60,14 +60,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0.0,
-    "rotation": 59.99999999999999
+    "velocity": 0,
+    "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Left_Start",
+  "folder": "X_To_Shoot",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }

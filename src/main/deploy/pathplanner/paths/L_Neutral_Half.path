@@ -3,58 +3,62 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6465086206896558,
-        "y": 5.237165948275862
+        "x": 7.849730603448277,
+        "y": 7.172359913793104
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9897119388575124,
-        "y": 4.510482703759354
+        "x": 7.849730603448277,
+        "y": 6.087478448275863
       },
       "isLocked": false,
-      "linkedName": "Depot"
+      "linkedName": "Left_Neutral"
     },
     {
       "anchor": {
-        "x": 2.0539224137931043,
-        "y": 0.6728448275862069
+        "x": 7.07760775862069,
+        "y": 4.728933189655172
       },
       "prevControl": {
-        "x": 2.874913793103449,
-        "y": 0.7217133620689662
+        "x": 8.172262931034483,
+        "y": 4.719159482758621
       },
       "nextControl": {
-        "x": 1.487964894926835,
-        "y": 0.6391568800346429
+        "x": 6.002542850904123,
+        "y": 4.738531983474069
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7149245689655179,
-        "y": 0.6728448275862069
+        "x": 6.149105603448277,
+        "y": 5.84313577586207
       },
       "prevControl": {
-        "x": 1.2329310344827593,
-        "y": 0.6728448275862069
+        "x": 6.149105603448277,
+        "y": 5.354450431034484
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "Left_Neutral_Done"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 0.4860557768924303,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 1.00398406374502,
       "rotationDegrees": 0.0
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.9643916913946611,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 1.6053412462908,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 3.0,
@@ -77,13 +81,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -135.0
   },
   "reversed": false,
-  "folder": "Alliance_Zone",
+  "folder": "Neutral_Zone",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

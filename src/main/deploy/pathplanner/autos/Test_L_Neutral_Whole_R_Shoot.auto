@@ -11,28 +11,15 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "L_Start_To_Depot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "pathName": "Test_L_Reverse_Start_To_Neutral"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot_To_L_Shoot"
+            "pathName": "R_Neutral_Flipped_To_R_Shoot"
           }
         },
         {
@@ -58,6 +45,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left_Alliance",
+  "folder": "Tests",
   "choreoAuto": false
 }

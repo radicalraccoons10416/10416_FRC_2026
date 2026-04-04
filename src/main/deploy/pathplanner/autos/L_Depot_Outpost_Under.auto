@@ -5,15 +5,28 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "deadline",
           "data": {
-            "name": "ExtendIntake"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "L_Start_To_Depot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Other_R_Start_To_Outpost"
+            "pathName": "Under_Tower"
           }
         },
         {
@@ -25,26 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Other_Outpost_To_Depot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Reverse_Depot_To_Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intake"
-                }
-              }
-            ]
+            "pathName": "Outpost_To_R_Shoot"
           }
         },
         {
@@ -54,13 +48,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAimShoot"
+                  "name": "Auto_Aim_Shoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "unstick"
+                  "name": "Agitate_Fuel"
                 }
               }
             ]
@@ -70,6 +64,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right",
+  "folder": "Left_Alliance",
   "choreoAuto": false
 }

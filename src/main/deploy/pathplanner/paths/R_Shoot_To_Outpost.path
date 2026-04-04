@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7149245689655179,
-        "y": 0.6728448275862069
+        "x": 3.2854094827586215,
+        "y": 2.7253232758620687
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.627489224137932,
-        "y": 3.9763577586206926
+        "x": 3.1251569066328266,
+        "y": 2.5155217399865517
       },
       "isLocked": false,
-      "linkedName": "Outpost"
+      "linkedName": "Right_Shoot"
     },
     {
       "anchor": {
-        "x": 0.7637931034482766,
-        "y": 5.031918103448277
+        "x": 0.7149245689655179,
+        "y": 0.6728448275862069
       },
       "prevControl": {
-        "x": 1.6532004310344834,
-        "y": 5.755172413793105
+        "x": 1.3456631189054271,
+        "y": 1.1964347561181081
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Depot_Reverse"
+      "linkedName": "Outpost"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.4783526927138335,
-      "rotationDegrees": -90.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Alliance_Zone",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 45.0
   },
   "useDefaultConstraints": true
 }

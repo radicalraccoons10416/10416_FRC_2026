@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ExtendIntake"
+            "name": "Extend_Intake"
           }
         },
         {
@@ -25,7 +25,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Outpost_To_Shoot"
+            "pathName": "Outpost_To_R_Shoot"
           }
         },
         {
@@ -35,13 +35,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAimShoot"
+                  "name": "Auto_Aim_Shoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "unstick"
+                  "name": "Agitate_Fuel"
                 }
               }
             ]
@@ -51,6 +51,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Right",
+  "folder": "Right_Alliance",
   "choreoAuto": false
 }

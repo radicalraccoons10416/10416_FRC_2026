@@ -12,7 +12,7 @@
         "y": 3.0430306480287017
       },
       "isLocked": false,
-      "linkedName": "RightStart"
+      "linkedName": "Right_Start"
     },
     {
       "anchor": {
@@ -20,12 +20,12 @@
         "y": 0.6728448275862069
       },
       "prevControl": {
-        "x": 0.3976729108659043,
-        "y": 0.4617986448978504
+        "x": 0.39767291086590423,
+        "y": 0.46179864489785044
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "outpost"
+      "linkedName": "Outpost"
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right_Start",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

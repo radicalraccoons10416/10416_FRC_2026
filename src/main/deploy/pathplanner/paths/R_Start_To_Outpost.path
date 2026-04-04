@@ -12,7 +12,7 @@
         "y": 3.0430306480287017
       },
       "isLocked": false,
-      "linkedName": "RightStart"
+      "linkedName": "Right_Start"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "outpost"
+      "linkedName": "Outpost"
     }
   ],
   "rotationTargets": [],
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Right_Start",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

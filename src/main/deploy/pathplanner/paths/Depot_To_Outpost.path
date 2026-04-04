@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5878663793103456,
-        "y": 5.198071120689656
+        "x": 0.6465086206896558,
+        "y": 5.237165948275862
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9310696974782022,
-        "y": 4.471387876173147
+        "x": 2.9897119388575124,
+        "y": 4.510482703759354
       },
       "isLocked": false,
-      "linkedName": "testPickup"
+      "linkedName": "Depot"
     },
     {
       "anchor": {
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "outpost"
+      "linkedName": "Outpost"
     }
   ],
   "rotationTargets": [
@@ -80,7 +80,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Alliance_Zone",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 59.99999999999999

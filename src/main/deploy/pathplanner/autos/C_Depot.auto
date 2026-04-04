@@ -7,7 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ExtendIntake"
+            "name": "Extend_Intake"
           }
         },
         {
@@ -23,7 +23,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "intake"
+                  "name": "Intake"
                 }
               }
             ]
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot_To_Shoot"
+            "pathName": "Depot_To_L_Shoot"
           }
         },
         {
@@ -42,13 +42,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoAimShoot"
+                  "name": "Auto_Aim_Shoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "unstick"
+                  "name": "Agitate_Fuel"
                 }
               }
             ]
@@ -58,6 +58,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Center",
+  "folder": "Center_Alliance",
   "choreoAuto": false
 }

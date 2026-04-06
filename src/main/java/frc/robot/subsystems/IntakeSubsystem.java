@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -11,22 +13,23 @@ import frc.robot.RobotContainer.States;
 
 public class IntakeSubsystem extends SubsystemBase {
     CANBus rio = new CANBus("rio");
-    public final TalonFX intakeMotor = new TalonFX(55, rio);
-    public final TalonFX storeMotor = new TalonFX(54, rio);
+    public final TalonFX lowerIntakeMotor = new TalonFX(54, rio);
+    public final TalonFX upperIntakeMotor = new TalonFX(55, rio);
+    public final TalonFX storeMotor = new TalonFX(56, rio);
 
     private States state = States.NONE;
     private double wheelSpeed = 0.0;
 
-    // public IntakeSubsystem(){
-    //     var slot0Configs = new Slot0Configs();
+    public IntakeSubsystem(){
+        var slot0Configs = new Slot0Configs();
 
-    //     slot0Configs.kP = 0;
-    //     slot0Configs.kI = 0;
-    //     slot0Configs.kD = 0;
+        slot0Configs.kP = 0;
+        slot0Configs.kI = 0;
+        slot0Configs.kD = 0;
 
-    //     storeMotor.getConfigurator().apply(slot0Configs);
-    //     storeMotor.setNeutralMode(NeutralModeValue.Brake);
-    // }
+        storeMotor.getConfigurator().apply(slot0Configs);
+        storeMotor.setNeutralMode(NeutralModeValue.Brake);
+    }
 
     // private final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
     // double position = 0;
@@ -57,7 +60,8 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         double outputVoltage = wheelSpeed * state.getMultiplier();
-        intakeMotor.setControl(new VoltageOut(outputVoltage));
+        upperIntakeMotor.setControl(new VoltageOut(outputVoltage));
+        lowerIntakeMotor.setControl(new VoltageOut(-1 * outputVoltage));
         // storeMotor.setControl(m_Request.withPosition(position));
         state = States.NONE;
         wheelSpeed = 0;

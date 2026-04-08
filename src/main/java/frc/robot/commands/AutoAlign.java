@@ -107,9 +107,10 @@ public class AutoAlign extends Command {
 
         speedTable = new InterpolatingDoubleTreeMap();
         speedTable.put(1.7, 21.25);
-        speedTable.put(2.0, 21.5);
-        speedTable.put(2.5, 25.0);
+        speedTable.put(2.0, 23.0);
+        speedTable.put(2.5, 25.3);
         speedTable.put(3.3, 29.0);
+        speedTable.put(3.7, 31.0);
     }
 
     @Override

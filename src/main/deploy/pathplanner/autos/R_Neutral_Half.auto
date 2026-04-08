@@ -13,13 +13,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Test_L_Reverse_Start_To_Neutral"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "R_Neutral_Flipped_To_R_Shoot"
+            "pathName": "R_Reverse_Start_To_Neutral"
           }
         },
         {
@@ -27,11 +21,30 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "path",
                 "data": {
-                  "waitTime": 5.0
+                  "pathName": "R_Neutral_Half"
                 }
               },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "R_Neutral_To_R_Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
               {
                 "type": "named",
                 "data": {
@@ -46,17 +59,11 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "R_Shoot_To_Outpost"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "Tests",
+  "folder": "Right_Neutral",
   "choreoAuto": false
 }

@@ -17,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -55,7 +56,7 @@ public class RobotContainer
   // Establish a Sendable Chooser that will be able to be sent to the SmartDashboard, allowing selection of desired auto
   private final SendableChooser<Command> autoChooser;
   
-  final IntakeSubsystem intake = new IntakeSubsystem();
+  final public IntakeSubsystem intake = new IntakeSubsystem();
   final ShooterSubsystem shooter = new ShooterSubsystem();
   final HopperSubsystem hopper = new HopperSubsystem();
   final ClimberSubsystem climber = new ClimberSubsystem();
@@ -176,14 +177,14 @@ public class RobotContainer
       )
     );
 
-      // Shoot Low -> A
-      driverController.a().whileTrue(
-        Commands.parallel(
-          hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
-          shooter.runShooter(22
-          )
+    // Shoot Low -> A
+    driverController.a().whileTrue(
+      Commands.parallel(
+        hopper.runHopper(States.FORWARD, shooter::isShooterAtSpeed),
+        shooter.runShooter(22
         )
-      );
+      )
+    );
       
       // Shoot Medium -> B
       driverController.b().whileTrue(
@@ -200,6 +201,8 @@ public class RobotContainer
           shooter.runShooter(28)
         )
       );
+
+
 
 
       //=========================================================================
@@ -234,16 +237,13 @@ public class RobotContainer
 
       // Hopper Floor -> A
       operatorController.a().whileTrue(
-        hopper.runHopper(States.FORWARD, trueSupplier)
+        hopper.runHopper(States.BACKWARDS, trueSupplier)
       );
 
-      // // Intake Up -> X
-      // operatorController.x().onTrue(
-      //   Commands.parallel(
-      //     intake.intakeUp,
-      //     intake.runIntake(States.FORWARD)
-      //   )
-      // );
+      // Intake Up -> X
+      operatorController.x().onTrue(
+          intake.intakeUp
+      );
 
       // // Climber Up -> D-Pad Up
       // operatorController.povUp().whileTrue(

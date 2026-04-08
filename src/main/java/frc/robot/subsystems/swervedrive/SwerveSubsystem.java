@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.LimelightHelpers.LimelightResults;
+import frc.robot.RobotContainer.States;
 import frc.robot.subsystems.swervedrive.Vision.Cameras;
 import java.io.File;
 import java.io.IOException;
@@ -708,6 +709,13 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveDrive.lockPose();
   }
+
+  public Command lockSwerve() { 
+      return run(()-> {
+        swerveDrive.lockPose();
+      });
+  }
+
 
   /**
    * Gets the current pitch angle of the robot, as reported by the imu.

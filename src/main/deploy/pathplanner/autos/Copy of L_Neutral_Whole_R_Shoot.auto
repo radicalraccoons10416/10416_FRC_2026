@@ -5,15 +5,34 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Extend_Intake"
+            "pathName": "L_Reverse_Start_To_Neutral"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "L_Neutral_Whole"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Test_L_Reverse_Start_To_Neutral"
+            "pathName": "R_Neutral_Flipped_To_R_Shoot"
           }
         },
         {
@@ -39,6 +58,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Tests",
+  "folder": "Left_Neutral",
   "choreoAuto": false
 }

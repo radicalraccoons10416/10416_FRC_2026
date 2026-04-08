@@ -22,14 +22,15 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(){
         var slot0Configs = new Slot0Configs();
-
+        
         slot0Configs.kP = 0;
         slot0Configs.kI = 0;
         slot0Configs.kD = 0;
-
+        
         storeMotor.getConfigurator().apply(slot0Configs);
         storeMotor.setNeutralMode(NeutralModeValue.Brake);
     }
+
 
     // private final PositionTorqueCurrentFOC m_Request = new PositionTorqueCurrentFOC(0).withSlot(0);
     // double position = 0;
@@ -41,14 +42,23 @@ public class IntakeSubsystem extends SubsystemBase {
     // }
 
     public Command intakeUp = Commands.run(
-        () -> storeMotor.setControl(new VoltageOut(-3)))
-        .withTimeout(1.5)   
-        .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
+        () -> storeMotor.setControl(new VoltageOut(-1.5)))
+        .withTimeout(0.5)   
+        .andThen(() -> {
+            storeMotor.setControl(new VoltageOut(0.0));
+            storeMotor.setNeutralMode(NeutralModeValue.Brake);
+        });
 
     public Command intakeDown = Commands.run(
-        () -> storeMotor.setControl(new VoltageOut(3)))
+        () -> {
+            storeMotor.setControl(new VoltageOut(2));
+            storeMotor.setNeutralMode(NeutralModeValue.Coast);
+        })
         .withTimeout(0.5)
-        .finallyDo(() -> storeMotor.setControl(new VoltageOut(0.0)));
+        .andThen(() -> {
+            storeMotor.setControl(new VoltageOut(0.0));
+            // storeMotor.setNeutralMode(NeutralModeValue.Brake);
+        });
 
     public Command runIntake(States direction, double speed) { 
         return run(()-> {
@@ -60,10 +70,13 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         double outputVoltage = wheelSpeed * state.getMultiplier();
-        upperIntakeMotor.setControl(new VoltageOut(outputVoltage));
+        // * 0.8
+        upperIntakeMotor.setControl(new VoltageOut(outputVoltage * 0.8));
+        // * -1
         lowerIntakeMotor.setControl(new VoltageOut(-1 * outputVoltage));
         // storeMotor.setControl(m_Request.withPosition(position));
         state = States.NONE;
         wheelSpeed = 0;
+        // intakeMotorMode = NeutralModeValue.Coast;
     }
 }

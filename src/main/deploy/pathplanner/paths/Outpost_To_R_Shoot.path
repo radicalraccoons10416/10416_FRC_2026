@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3471666821765504,
-        "y": 1.21604488303208
+        "x": 1.8193534482758627,
+        "y": 1.6697629310344824
       },
       "isLocked": false,
       "linkedName": "Outpost"
     },
     {
       "anchor": {
-        "x": 2.9237823275862076,
-        "y": 2.9696659482758627
+        "x": 1.9757327586206905,
+        "y": 3.8883943965517247
       },
       "prevControl": {
-        "x": 2.0901400748817447,
-        "y": 2.3174139884417433
+        "x": 2.4448706896551733,
+        "y": 3.4485775862068975
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 31.952257790286968
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "X_To_Shoot",

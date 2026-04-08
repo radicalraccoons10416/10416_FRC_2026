@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.7643211206896554,
-        "y": 5.862683189655172
+        "x": 3.39292025862069,
+        "y": 5.794267241379311
       },
       "isLocked": false,
       "linkedName": "L_Reverse_Start"
@@ -20,12 +20,12 @@
         "y": 6.0190625
       },
       "prevControl": {
-        "x": 5.664176047091841,
-        "y": 5.016984249664603
+        "x": 5.499987714143163,
+        "y": 5.290307879241818
       },
       "nextControl": {
-        "x": 6.188200431034484,
-        "y": 6.615258620689656
+        "x": 6.495706810380121,
+        "y": 6.762964828269409
       },
       "isLocked": false,
       "linkedName": null
@@ -37,27 +37,59 @@
       },
       "prevControl": {
         "x": 7.800862068965518,
-        "y": 7.947727954164617
+        "y": 7.7578184968987225
       },
       "nextControl": {
         "x": 7.800862068965518,
-        "y": 6.7812795849212755
+        "y": 6.721747808395198
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.800862068965518,
-        "y": 1.0637931034482755
+        "x": 7.801,
+        "y": 1.064
       },
       "prevControl": {
-        "x": 7.800862068965518,
-        "y": 2.2073168186634
+        "x": 7.851690779687198,
+        "y": 1.3088069542613199
+      },
+      "nextControl": {
+        "x": 7.683577586206896,
+        "y": 0.4969181034482756
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.256616379310345,
+        "y": 2.0509375
+      },
+      "prevControl": {
+        "x": 6.559038830612557,
+        "y": 1.0121821237880553
+      },
+      "nextControl": {
+        "x": 6.0318211206896555,
+        "y": 2.823060344827586
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.2854094827586215,
+        "y": 2.7253232758620687
+      },
+      "prevControl": {
+        "x": 4.399612068965518,
+        "y": 2.4223383620689662
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Right_Neutral_Flipped"
+      "linkedName": "Right_Shoot"
     }
   ],
   "rotationTargets": [
@@ -66,8 +98,20 @@
       "rotationDegrees": 180.0
     },
     {
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 1.9371069182389937,
       "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 2.9748427672955917,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 3.75,
+      "rotationDegrees": 119.99999999999999
+    },
+    {
+      "waypointRelativePos": 4.897798742138363,
+      "rotationDegrees": 119.99999999999999
     }
   ],
   "constraintZones": [
@@ -109,7 +153,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 45.0
   },
   "reversed": false,
   "folder": "Tests",

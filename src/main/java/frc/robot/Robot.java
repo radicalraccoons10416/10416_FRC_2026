@@ -6,15 +6,19 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.Seconds;
 
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as
@@ -33,8 +37,9 @@ public class Robot extends TimedRobot
 
   private NetworkTableEntry hubActive;
   private NetworkTableEntry shiftTimer;
-  
 
+  
+  
   public Robot()
   {
     instance = this;
@@ -42,72 +47,87 @@ public class Robot extends TimedRobot
     hubActive = hubTrackerTable.getEntry("activeHub");
     shiftTimer = hubTrackerTable.getEntry("shiftTimer");
   }
-
+  
   public static Robot getInstance()
   {
     return instance;
   }
-
+  
   /**
    * This function is run when the robot is first started up and should be used for any initialization code.
-   */
-  @Override
-  public void robotInit()
+  */
+ @Override
+ public void robotInit()
   {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
+    
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
-
+    
     if (isSimulation())
-    {
-      DriverStation.silenceJoystickConnectionWarning(true);
+      {
+        DriverStation.silenceJoystickConnectionWarning(true);
+      }
     }
-  }
-
-  /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics that you want ran
-   * during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
-  @Override
-  public void robotPeriodic()
-  {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-    hubActive.setBoolean(HubTracker.isActive());
-    Time remainingTime = HubTracker.timeRemainingInCurrentShift().orElse(Time.ofRelativeUnits(0.0, Seconds));
-    shiftTimer.setDouble(remainingTime.baseUnitMagnitude());
-  }
-
-  /**
-   * This function is called once each time the robot enters Disabled mode.
-   */
-  @Override
-  public void disabledInit()
-  {
-    m_robotContainer.setMotorBrake(true);
-    disabledTimer.reset();
-    disabledTimer.start();
-  }
-  
-  @Override
-  public void disabledPeriodic()
-  {
-    if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
-    {
-      m_robotContainer.setMotorBrake(true);
-      disabledTimer.stop();
-      disabledTimer.reset();
+    
+    /**
+     * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics that you want ran
+     * during disabled, autonomous, teleoperated and test.
+    *
+    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+    * SmartDashboard integrated updating.
+    */
+   @Override
+   public void robotPeriodic()
+   {
+     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+     // commands, running already-scheduled commands, removing finished or interrupted commands,
+     // and running subsystem periodic() methods.  This must be called from the robot's periodic
+     // block in order for anything in the Command-based framework to work.
+     CommandScheduler.getInstance().run();
+     hubActive.setBoolean(HubTracker.isActive());
+     Time remainingTime = HubTracker.timeRemainingInCurrentShift().orElse(Time.ofRelativeUnits(0.0, Seconds));
+     shiftTimer.setDouble(remainingTime.baseUnitMagnitude());
     }
+    
+    /**
+     * This function is called once each time the robot enters Disabled mode.
+    */
+   @Override
+   public void disabledInit()
+   {
+     m_robotContainer.setMotorBrake(true);
+     disabledTimer.reset();
+     disabledTimer.start();
+    }
+    
+
+    boolean lastValue;
+    boolean isCoast = false;
+
+    @Override
+    public void disabledPeriodic()
+    {
+      boolean isUserButtonPressed = RobotController.getUserButton();
+
+      if (!lastValue && isUserButtonPressed) {
+        m_robotContainer.intake.storeMotor.setNeutralMode(isCoast ? NeutralModeValue.Brake : NeutralModeValue.Coast);
+        isCoast = !isCoast;
+      } 
+
+      lastValue = isUserButtonPressed;
+
+
+
+      if (disabledTimer.hasElapsed(Constants.DrivebaseConstants.WHEEL_LOCK_TIME))
+        {
+          m_robotContainer.setMotorBrake(true);
+          disabledTimer.stop();
+          disabledTimer.reset();
+        }
   }
 
   /**

@@ -710,11 +710,11 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.lockPose();
   }
 
-  public Command lockSwerve() { 
-      return run(()-> {
-        swerveDrive.lockPose();
-      });
-  }
+  // public Command lockSwerve() { 
+  //     return run(()-> {
+  //       swerveDrive.lockPose();
+  //     });
+  // }
 
 
   /**

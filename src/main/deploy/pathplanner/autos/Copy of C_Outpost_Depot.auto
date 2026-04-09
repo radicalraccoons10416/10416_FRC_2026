@@ -5,9 +5,27 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Extend_Intake"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "L_Reverse_Start_To_Neutral"
+            "pathName": "C_Start_To_Outpost"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Reverse_Under_Tower"
           }
         },
         {
@@ -17,7 +35,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "L_Neutral_Whole"
+                  "pathName": "Reverse_Depot_To_L_Shoot"
                 }
               },
               {
@@ -27,12 +45,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "R_Neutral_Flipped_To_R_Shoot"
           }
         },
         {
@@ -58,6 +70,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Left_Neutral",
+  "folder": "Center_Alliance",
   "choreoAuto": false
 }

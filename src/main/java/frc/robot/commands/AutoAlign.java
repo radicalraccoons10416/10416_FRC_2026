@@ -192,7 +192,11 @@ public class AutoAlign extends Command {
         rotationCmd = MathUtil.clamp(rotationCmd, -MAX_AUTO_ROTATION_RAD_PER_SEC, MAX_AUTO_ROTATION_RAD_PER_SEC);
         }
 
-        drivebase.drive(new Translation2d(xVelocity, yVelocity), rotationCmd, true);
+        if(Math.abs(headingErrorDeg) < 1) {
+            drivebase.lock();
+        } else {
+            drivebase.drive(new Translation2d(xVelocity, yVelocity), rotationCmd, true);
+        }
     }
 
     @Override

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6465086206896558,
-        "y": 5.237165948275862
+        "x": 0.5487715517241387,
+        "y": 5.217618534482758
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.4608081896551731,
-        "y": 4.416174568965517
+        "x": 0.3630711206896561,
+        "y": 4.396627155172413
       },
       "isLocked": false,
       "linkedName": "Depot"
@@ -104,7 +104,7 @@
   "folder": "Alliance_Zone",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.99999999999999
+    "rotation": 80.0
   },
   "useDefaultConstraints": true
 }

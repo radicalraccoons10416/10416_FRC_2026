@@ -13,12 +13,11 @@
   ],
   "autoFolders": [
     "Center_Alliance",
-    "Center_Neutral",
     "Left_Alliance",
     "Left_Neutral",
-    "Tests",
     "Right_Alliance",
-    "Right_Neutral"
+    "Right_Neutral",
+    "Tests"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

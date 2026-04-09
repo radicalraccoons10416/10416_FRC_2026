@@ -30,6 +30,10 @@
   ],
   "rotationTargets": [
     {
+      "waypointRelativePos": 0.2531446540880503,
+      "rotationDegrees": 180.0
+    },
+    {
       "waypointRelativePos": 0.639937106918241,
       "rotationDegrees": -90.001
     },
@@ -56,7 +60,7 @@
   "reversed": false,
   "folder": "X_To_Shoot",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 1.5,
     "rotation": 90.0
   },
   "useDefaultConstraints": true

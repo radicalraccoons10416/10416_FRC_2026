@@ -231,7 +231,7 @@ public class RobotContainer
       operatorController.leftBumper().onTrue(
         Commands.sequence(
           intake.runIntake(States.BACKWARDS, 3).withTimeout(0.1),
-          intake.runIntake(States.FORWARD, 12).withTimeout(0.5)
+          intake.runIntake(States.FORWARD, 12).withTimeout(0.2)
         )
       );
 

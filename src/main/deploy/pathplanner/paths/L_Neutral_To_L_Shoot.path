@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.679967672413794,
-        "y": 4.875538793103448
+        "x": 5.501404584115223,
+        "y": 5.050514450447487
       },
       "isLocked": false,
       "linkedName": "Left_Neutral_Done"
@@ -20,8 +20,8 @@
         "y": 5.129655172413793
       },
       "prevControl": {
-        "x": 3.666584051724138,
-        "y": 5.51082974137931
+        "x": 3.725226293103449,
+        "y": 5.852909482758621
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9371069182389946,
+      "waypointRelativePos": 0.8883647798742138,
       "rotationDegrees": -135.0
     }
   ],
@@ -52,7 +52,7 @@
   "reversed": false,
   "folder": "X_To_Shoot",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 1.5,
     "rotation": -135.0
   },
   "useDefaultConstraints": true

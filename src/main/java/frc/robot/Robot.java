@@ -100,6 +100,7 @@ public class Robot extends TimedRobot
    public void disabledInit()
    {
      m_robotContainer.setMotorBrake(true);
+     m_robotContainer.intake.storeMotor.setNeutralMode(NeutralModeValue.Brake);
      disabledTimer.reset();
      disabledTimer.start();
     }
@@ -161,6 +162,7 @@ public class Robot extends TimedRobot
   public void teleopInit()
   {
     m_robotContainer.setMotorBrake(true);
+    m_robotContainer.intake.storeMotor.setNeutralMode(NeutralModeValue.Coast);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

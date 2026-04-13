@@ -51,7 +51,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public Command intakeDown = Commands.run(
         () -> {
-            storeMotor.setControl(new VoltageOut(2));
+            storeMotor.setControl(new VoltageOut(4));
             storeMotor.setNeutralMode(NeutralModeValue.Coast);
         })
         .withTimeout(0.5)

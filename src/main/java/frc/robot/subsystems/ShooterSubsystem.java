@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -22,13 +23,18 @@ public class ShooterSubsystem extends SubsystemBase {
         slot0Configs.kP = 0.4; // An error of 1 rps results in 0.11 V output
         slot0Configs.kI = 0.0; // no output for integrated error
         slot0Configs.kD = 0.01; // no output for error derivative
-
+        
+        var limitConfigs = new CurrentLimitsConfigs();
+        limitConfigs.StatorCurrentLimit = 100;
+        limitConfigs.StatorCurrentLimitEnable = true;
         
         //Applies the configuration to the two motors then sets the second lift motor to follow
         //the voltage of the first lift motor
+        shooterMotorLeft.getConfigurator().apply(limitConfigs);
         shooterMotorLeft.getConfigurator().apply(slot0Configs);
+        shooterMotorRight.getConfigurator().apply(limitConfigs);
         shooterMotorRight.getConfigurator().apply(slot0Configs);
-        intakeMotor.getConfigurator().apply(slot0Configs);
+        intakeMotor.getConfigurator().apply(limitConfigs);
         
         final Follower m_Follower = new Follower(52, MotorAlignmentValue.Opposed);
         
@@ -36,11 +42,13 @@ public class ShooterSubsystem extends SubsystemBase {
         shooterMotorLeft.setNeutralMode(NeutralModeValue.Coast);
         shooterMotorRight.setNeutralMode(NeutralModeValue.Coast);
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
+        
     }
     CANBus rio = new CANBus("rio");
     public final TalonFX shooterMotorLeft = new TalonFX(51, rio);
     public final TalonFX shooterMotorRight = new TalonFX(52, rio);
     public final TalonFX intakeMotor = new TalonFX(53, rio);
+    
     
     double shooterWheelSpeed = 0;
     boolean isAtSpeed = false;
@@ -50,6 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public Command runShooter(double speed){
         return run(()-> {
             shooterWheelSpeed = speed;
+            
         });
     }
 

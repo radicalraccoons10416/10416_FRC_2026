@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.5487715517241387,
-        "y": 5.217618534482758
+        "x": 3.627489224137931,
+        "y": 5.031918103448277
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.14188577586207,
-        "y": 5.618340517241379
+        "x": 2.6110237068965523,
+        "y": 5.3055818965517245
       },
       "isLocked": false,
-      "linkedName": "Depot"
+      "linkedName": "Left_Start"
     },
     {
       "anchor": {
-        "x": 2.669665948275863,
-        "y": 3.97635775862069
+        "x": 0.4705818965517249,
+        "y": 4.934181034482759
       },
       "prevControl": {
-        "x": 2.0539224137931043,
-        "y": 4.181605603448277
+        "x": 1.3111206896551733,
+        "y": 5.031918103448277
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Special_Depot"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.7594339622641492,
+      "rotationDegrees": -119.99999999999999
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "X_To_Shoot",
+  "folder": "Left_Start",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 80.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

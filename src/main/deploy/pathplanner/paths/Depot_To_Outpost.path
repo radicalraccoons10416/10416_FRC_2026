@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.891974869891995,
-        "y": 4.49093528996625
+        "x": 2.9237823275862076,
+        "y": 6.322047413793103
       },
       "isLocked": false,
       "linkedName": "Depot"
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 0.41823899371069184,
       "rotationDegrees": 0.0
     }
   ],

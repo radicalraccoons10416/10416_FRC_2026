@@ -87,7 +87,7 @@ public class RobotContainer
   .withControllerRotationAxis(driverController::getRightX)
   .deadband(OperatorConstants.DEADBAND)
   .scaleTranslation(1)
-  .scaleRotation(0.85)
+  .scaleRotation(1)
   .allianceRelativeControl(true);
   
   /**
@@ -119,7 +119,7 @@ public class RobotContainer
     
     NamedCommands.registerCommand("Agitate_Fuel", Commands.sequence(
       intake.runIntake(States.BACKWARDS, 3 ).withTimeout(0.1),
-      intake.runIntake(States.FORWARD, 12).withTimeout(0.5),
+      intake.runIntake(States.FORWARD, 10).withTimeout(0.5),
       Commands.waitSeconds(0.5)
     ).repeatedly());
     
